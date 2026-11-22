@@ -1,4 +1,4 @@
-import { envChoice } from "@/lib/adapters/registry";
+import { envChoice } from "@/lib/adapters/env";
 import type { SimplesEnginePort } from "@/lib/ports/simples-engine";
 import { LocalSimplesEngine } from "./local-simples-engine";
 import { RfbHttpSimplesEngine } from "./rfb-http-simples-engine";

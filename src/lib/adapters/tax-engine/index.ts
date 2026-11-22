@@ -1,5 +1,5 @@
 import type { TaxEnginePort } from "@/lib/ports/tax-engine";
-import { envChoice } from "../registry";
+import { envChoice } from "../env";
 import { LocalRtcEngine } from "./local-rtc-engine";
 import { RfbRtcHttpEngine } from "./rfb-http-engine";
 
