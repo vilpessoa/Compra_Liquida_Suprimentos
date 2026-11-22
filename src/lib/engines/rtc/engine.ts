@@ -20,6 +20,7 @@ import {
   RtcException,
   ex,
   httpStatusOf,
+  problemaHttpDe,
 } from "./errors";
 import type { RtcRepos, TipoDfe } from "./data";
 import {
@@ -282,9 +283,8 @@ function problema(
 /** ApiExceptionHandler + ProblemType (HTTP) para exceções de negócio de /regime-geral. */
 function respostaErroHttp(e: unknown, instance: string, base: string, opts: EngineOptions): RtcHttpResponse<ProblemDetailBody> {
   const exc = e instanceof RtcException ? e : ex.sistema(e instanceof Error ? e.message : String(e));
-  const info = KINDS[exc.kind];
   const status = httpStatusOf(exc.kind);
-  const http = info.http ?? { titulo: ERRO_SISTEMA_TITULO, path: ERRO_SISTEMA_PATH };
+  const http = problemaHttpDe(exc.kind);
   return {
     status,
     body: problema(status, http.titulo, `${base}/errors/${http.path}`, exc.message, instance, opts),
@@ -319,6 +319,8 @@ function operacaoConsumo(r: RtcRepos, op: OperacaoIn, data: string): OperacaoCon
 }
 
 /** AvisoDadosSimuladosService.getWarningDadosSimulados -> valor do header ou null. */
+// Literais do Java: AvisoDadosSimuladosService.java:27 (2026-12-31), :38 (CSTs "010","220","221"), :49 (2025-12-31), :53 (2027-01-01);
+// valores do header: TipoWarningDadosSimulados.java (CASO_GERAL=1 ... CASO_CALCULOS_SIMULADOS=6).
 function avisoDadosSimulados(op: OperacaoIn, data: string): string | null {
   if (data > "2026-12-31") return "6"; // CASO_CALCULOS_SIMULADOS
   const fictiaias = (op.itens ?? []).some((i) => i.cst === "010" || i.cst === "220" || i.cst === "221");

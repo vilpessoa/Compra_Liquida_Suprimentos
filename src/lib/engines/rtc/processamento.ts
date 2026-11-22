@@ -14,6 +14,7 @@ import type { ItemIn } from "./input";
 import { calcularTributos, ItemWork, OperacaoModel, TratamentoClassificacaoModel, AliquotaIS, TributosOut } from "./calculo";
 import { MotorLocalNaoValidadoError } from "./errors";
 
+/** Constante literal do Java: domain/service/ProcessamentoItemService.java:60 (ANO_LIMITE_SUPERIOR_ALIQUOTAS_NOMINAIS = 2027). */
 const ANO_LIMITE_SUPERIOR_ALIQUOTAS_NOMINAIS = 2027;
 
 const isNullOrEmpty = (s: string | null | undefined) => s === null || s === undefined || s.trim() === "";
@@ -23,6 +24,7 @@ const anoDe = (data: string) => parseInt(data.slice(0, 4), 10);
 
 // ───────────────────────────── SiglasDFeEnum ─────────────────────────────
 
+/** SiglasDFeEnum.java (enum, linhas 20-38): nome normalizado -> sigla de exibição. */
 const SIGLAS: Record<string, string> = {
   NFEABI: "NFe ABI",
   NFE: "NFe",
@@ -43,6 +45,8 @@ const SIGLAS: Record<string, string> = {
   NFAG: "NFAg",
   NFGAS: "NFGas",
 };
+// Literais do Java: SiglasDFeEnum.java:42-44 (NCM_APLICAVEL, NBS_APLICAVEL, IMPOSTO_SELETIVO_APLICAVEL) e
+// ValidacaoNomenclaturaService.java:48 (TRIO_RIGIDO = NFE, NFCE, NFSE).
 const NCM_APLICAVEL_DFE = new Set(["NFSE", "NFE", "NFCE"]);
 const NBS_APLICAVEL_DFE = new Set(["NFSE"]);
 const IMPOSTO_SELETIVO_APLICAVEL_DFE = new Set(["NFE", "NFCE"]);
@@ -59,6 +63,7 @@ function getPorSiglaNormalizada(sigla: string): string {
 
 // ───────────────────────────── NomenclaturaService ─────────────────────────────
 
+/** Literal do Java: domain/service/NomenclaturaService.java:44 (EXCEPTION_CLASSIFICACOES). */
 const EXCEPTION_CLASSIFICACOES = new Set(["200038", "515001"]);
 type Nomenclatura = "SEM" | "NCM" | "NBS" | "MISTO" | "EXCECAO_NCM" | "EXCECAO_NBS";
 
@@ -417,9 +422,10 @@ export function processarItem(
   // INÍCIO de bloco para a plataforma (Java): defaults de quantidade e unidade
   const item = itemIn as unknown as ItemWork;
   if (item.quantidade === null) item.quantidade = ONE;
-  if (item.unidade === null) item.unidade = "UN";
+  if (item.unidade === null) item.unidade = "UN"; // ProcessamentoItemService.java:96-97
 
   // item.ajustarNcm(tipoDfe)
+  // ItemOperacaoInput.java:128 (possuiNcmZero): "00" ou "00000000"
   if (tipoDfe !== null && tipoDfe.permiteNcmZero && (item.ncm === "00" || item.ncm === "00000000")) item.ncm = null;
 
   if (itemIn.possuiComponentesBC) {

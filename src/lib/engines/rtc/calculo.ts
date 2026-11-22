@@ -244,7 +244,6 @@ function calcularCbsIbs(
   let resultadoAliquota: Dec | null = null;
   let resultadoAliquotaEfetiva: Dec | null = null;
   let resultadoBaseCalculo: Dec;
-  let resultadoTributoCalculado: Dec;
   let resultadoTributoDevido: Dec | null = null;
   let resultadoPercentualDiferimento: Dec | null = null;
   let resultadoValorDiferimento: Dec | null = null;
@@ -254,7 +253,7 @@ function calcularCbsIbs(
     valorPercentualReducao = percentualParaFracao(percentualReducao);
   }
 
-  // CalculoCbsIbsService.java: "ajuste para 510001": o tipo de alíquota é tratado como Padrão
+  // CalculoCbsIbsService.java:209-215 ("ajuste para 510001"): literal "510001" tratado como tipo de alíquota Padrão
   const tipoAliquota = cl.codigo === "510001" ? "Padrão" : cl.tipoAliquota;
 
   const aliquotaInformada = aliquotaNominal(tributo, item);
@@ -388,7 +387,7 @@ function calcularCbsIbs(
 
   // conta exata sobre os números publicados (base e alíquota efetiva), arredondada uma vez
   const tributoCalculadoExato = evaluate(tt.expressaoTributoCalculado!, vars({ ...comuns, baseCalculo: resultadoBaseCalculo }));
-  resultadoTributoCalculado = arredondarValorFiscal(tributoCalculadoExato);
+  const resultadoTributoCalculado = arredondarValorFiscal(tributoCalculadoExato);
 
   if (isNotBlank(tt.expressaoTributoDevido)) {
     resultadoTributoDevido = arredondarValorFiscal(
@@ -736,6 +735,7 @@ function valoresEfetivos(
   dataFatoGerador: string,
   vBC: Dec,
 ): CompraGov {
+  // TributacaoCompraGovernamentalDomain.java:109 (LocalDate.of(2027, 1, 1))
   if (dataFatoGerador < "2027-01-01") {
     // antes de 2027, cada um fica com os seus proprios valores
     return cg;

@@ -4,7 +4,8 @@
  * Fontes (.rfb/calculadora-rtc-regime-regular/src/main/java/br/gov/serpro/rtc):
  *  - domain/service/exception/*.java                       (classes e mensagens)
  *  - api/exceptionhandler/enumeration/ProblemType.java      (REG-*, CAL-*: código, campo, estado — observabilidade)
- *  - api/exceptionhandler/ProblemType.java                  (título/URI dos erros HTTP de /regime-geral)
+ *    (o ApiExceptionHandler também usa esta enum: título/URI `{base}/errors/{path}` dos erros HTTP de /regime-geral;
+ *     api/exceptionhandler/ProblemType.java é uma enum legada não usada)
  *  - api/exceptionhandler/ApiExceptionHandler.java          (422 ValidacaoException, 400 CampoInvalido, 404 EntidadeNaoEncontrada, 500)
  *  - api/exceptionhandler/enumeration/CodigoValidacao.java  (VAL-*)
  *  - domain/service/collector/ItemCollector.java            (montagem de ErroDetalhe por item)
@@ -73,17 +74,13 @@ interface ObsEntry {
   campoDefault: string | null;
   estado: EstadoItem;
   titulo: string;
-}
-interface HttpEntry {
-  titulo: string;
+  /** 3º argumento do ProblemType: sufixo do `type` URI dos erros HTTP (`{base}/errors/{path}`). */
   path: string;
 }
 interface KindInfo {
   categoria: Categoria;
   /** ProblemType (observabilidade) -> ErroDetalhe. Ausente => ERRO_SISTEMA / CAL-999. */
   obs?: ObsEntry;
-  /** ProblemType (HTTP). Ausente => ERRO_SISTEMA. */
-  http?: HttpEntry;
 }
 
 const INC: EstadoItem = "INCONSISTENCIA_ENTRADA";
@@ -92,8 +89,7 @@ const FT: EstadoItem = "FALHA_TECNICA";
 export const KINDS: Record<ExceptionKind, KindInfo> = {
   AliquotaAdRemNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-004", campoDefault: null, estado: FT, titulo: "Alíquota ad rem não encontrada" },
-    http: { titulo: "Alíquota ad rem não encontrada", path: "aliquota-ad-rem-nao-encontrada" },
+    obs: { codigo: "CAL-004", campoDefault: null, estado: FT, titulo: "Alíquota ad rem não encontrada", path: "aliquota-ad-rem-nao-encontrada" },
   },
   AliquotaImpostoSeletivoNaoInformada: {
     categoria: "validacao",
@@ -101,26 +97,24 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-035",
       campoDefault: "aliquotasNominais/impostoSeletivo",
       estado: INC,
-      titulo: "Alíquota do Imposto Seletivo não informada",
+      titulo: "Alíquota do Imposto Seletivo não informada", path: "aliquota-imposto-seletivo-nao-informada",
     },
-    http: { titulo: "Alíquota do Imposto Seletivo não informada", path: "aliquota-imposto-seletivo-nao-informada" },
   },
   AliquotaNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-001", campoDefault: null, estado: FT, titulo: "Alíquota não encontrada" },
+    obs: { codigo: "CAL-001", campoDefault: null, estado: FT, titulo: "Alíquota não encontrada", path: "aliquota-nao-encontrada" },
   },
   AliquotaNegativa: {
     categoria: "validacao",
-    obs: { codigo: "CAL-005", campoDefault: null, estado: FT, titulo: "Alíquota negativa" },
+    obs: { codigo: "CAL-005", campoDefault: null, estado: FT, titulo: "Alíquota negativa", path: "aliquota-negativa" },
   },
   AliquotaPadraoNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-002", campoDefault: null, estado: FT, titulo: "Alíquota padrão não encontrada" },
+    obs: { codigo: "CAL-002", campoDefault: null, estado: FT, titulo: "Alíquota padrão não encontrada", path: "aliquota-padrao-nao-encontrada" },
   },
   AliquotaReferenciaNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-003", campoDefault: null, estado: FT, titulo: "Alíquota de referência não encontrada" },
-    http: { titulo: "Alíquota de referência não encontrada", path: "aliquota-referencia-nao-encontrada" },
+    obs: { codigo: "CAL-003", campoDefault: null, estado: FT, titulo: "Alíquota de referência não encontrada", path: "aliquota-referencia-nao-encontrada" },
   },
   AliquotasNominaisInformadasIndevidamente: {
     categoria: "validacao",
@@ -128,9 +122,8 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-036",
       campoDefault: "aliquotasNominais",
       estado: INC,
-      titulo: "Alíquotas nominais informadas indevidamente",
+      titulo: "Alíquotas nominais informadas indevidamente", path: "aliquotas-nominais-informadas-indevidamente",
     },
-    http: { titulo: "Alíquotas nominais informadas indevidamente", path: "aliquotas-nominais-informadas-indevidamente" },
   },
   AliquotasNominaisNaoInformadas: {
     categoria: "validacao",
@@ -138,18 +131,16 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-037",
       campoDefault: "aliquotasNominais",
       estado: INC,
-      titulo: "Alíquotas nominais não informadas",
+      titulo: "Alíquotas nominais não informadas", path: "aliquotas-nominais-nao-informadas",
     },
-    http: { titulo: "Alíquotas nominais não informadas", path: "aliquotas-nominais-nao-informadas" },
   },
   BaseCalculoComponentesInconsistente: {
     categoria: "validacao",
-    obs: { codigo: "REG-034", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo inconsistente" },
+    obs: { codigo: "REG-034", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo inconsistente", path: "base-calculo-inconsistente" },
   },
   BaseCalculoInconsistente: {
     categoria: "validacao",
-    obs: { codigo: "REG-026", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo inconsistente" },
-    http: { titulo: "Base de cálculo inconsistente", path: "base-calculo-inconsistente" },
+    obs: { codigo: "REG-026", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo inconsistente", path: "base-calculo-inconsistente" },
   },
   BaseCalculoMenorBaseCalculoImpostoSeletivo: {
     categoria: "validacao",
@@ -157,17 +148,12 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-027",
       campoDefault: "baseCalculo",
       estado: INC,
-      titulo: "Base de cálculo menor que a base de cálculo do Imposto Seletivo",
-    },
-    http: {
-      titulo: "Base de cálculo menor que a base de cálculo do Imposto Seletivo",
-      path: "base-calculo-menor-base-calculo-imposto-seletivo",
+      titulo: "Base de cálculo menor que a base de cálculo do Imposto Seletivo", path: "base-calculo-menor-base-calculo-imposto-seletivo",
     },
   },
   BaseCalculoNaoInformada: {
     categoria: "validacao",
-    obs: { codigo: "REG-025", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo não informada" },
-    http: { titulo: "Base de cálculo não informada", path: "base-calculo-nao-informada" },
+    obs: { codigo: "REG-025", campoDefault: "baseCalculo", estado: INC, titulo: "Base de cálculo não informada", path: "base-calculo-nao-informada" },
   },
   ClassificacaoTributariaNaoEncontrada: {
     categoria: "naoEncontrada",
@@ -175,9 +161,8 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-005",
       campoDefault: "cClassTrib",
       estado: INC,
-      titulo: "Classificação tributária não encontrada",
+      titulo: "Classificação tributária não encontrada", path: "classificacao-tributaria-nao-encontrada",
     },
-    http: { titulo: "Classificação tributária não encontrada", path: "classificacao-tributaria-nao-encontrada" },
   },
   ClassificacaoTributariaNaoVinculadaSituacaoTributaria: {
     categoria: "validacao",
@@ -185,11 +170,7 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-006",
       campoDefault: "cClassTrib",
       estado: INC,
-      titulo: "Classificação tributária não vinculada à situação tributária",
-    },
-    http: {
-      titulo: "Classificação tributária não vinculada à situação tributária",
-      path: "classificacao-tributaria-nao-vinculada-situacao-tributaria",
+      titulo: "Classificação tributária não vinculada à situação tributária", path: "classificacao-tributaria-nao-vinculada-situacao-tributaria",
     },
   },
   ClassificacaoTributariaNaoVinculadaTipoDfe: {
@@ -198,17 +179,16 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-029",
       campoDefault: "cClassTrib",
       estado: INC,
-      titulo: "Classificação tributária não vinculada ao tipo de documento",
+      titulo: "Classificação tributária não vinculada ao tipo de documento", path: "classificacao-tributaria-nao-vinculada-tipo-documento",
     },
   },
   DataFatoGeradorNaoInformada: {
     categoria: "campoInvalido",
-    obs: { codigo: "REG-021", campoDefault: null, estado: INC, titulo: "Data do fato gerador não informada" },
-    http: { titulo: "Data do fato gerador não informada", path: "fato-gerador-nao-informada" },
+    obs: { codigo: "REG-021", campoDefault: null, estado: INC, titulo: "Data do fato gerador não informada", path: "fato-gerador-nao-informada" },
   },
   ErroAvaliadorExpressaoAritmetica: {
     categoria: "validacao",
-    obs: { codigo: "CAL-008", campoDefault: null, estado: FT, titulo: "Erro no avaliador de expressão aritmética" },
+    obs: { codigo: "CAL-008", campoDefault: null, estado: FT, titulo: "Erro no avaliador de expressão aritmética", path: "erro-avaliador-expressao" },
   },
   ErroFaltaImplementacao: {
     categoria: "validacao",
@@ -216,22 +196,20 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "CAL-007",
       campoDefault: "cClassTrib",
       estado: "NAO_IMPLEMENTADO",
-      titulo: "Classificação tributária em desenvolvimento",
+      titulo: "Classificação tributária em desenvolvimento", path: "erro-falta-implementacao",
     },
-    http: { titulo: "Classificação tributária em desenvolvimento", path: "erro-falta-implementacao" },
   },
   ErroGenericoValidacao: {
     categoria: "validacao",
-    obs: { codigo: "REG-023", campoDefault: null, estado: INC, titulo: "Erro genérico de validação" },
+    obs: { codigo: "REG-023", campoDefault: null, estado: INC, titulo: "Erro genérico de validação", path: "erro-generico-validacao" },
   },
   FormaAplicacaoNaoDefinida: {
     categoria: "interno",
-    http: { titulo: "Forma de Aplicação de Percentual não definida", path: "forma-aplicacao-percentual-nao-definida" },
   },
   FormaAplicacaoNaoTratada: { categoria: "interno" },
   FundamentacaoClassificacaoNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-011", campoDefault: null, estado: FT, titulo: "Fundamentação não encontrada" },
+    obs: { codigo: "CAL-011", campoDefault: null, estado: FT, titulo: "Fundamentação não encontrada", path: "fundamentacao-nao-encontrada" },
   },
   ImpostoSeletivoInformadoIndevidamente: {
     categoria: "validacao",
@@ -239,11 +217,7 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-014",
       campoDefault: "impostoSeletivo",
       estado: INC,
-      titulo: "Dados do Imposto Seletivo informados indevidamente",
-    },
-    http: {
-      titulo: "Dados do Imposto Seletivo informados indevidamente",
-      path: "dados-imposto-seletivo-informados-indevidamente",
+      titulo: "Dados do Imposto Seletivo informados indevidamente", path: "dados-imposto-seletivo-informados-indevidamente",
     },
   },
   ImpostoSeletivoNaoAdmitidoTipoDfe: {
@@ -252,7 +226,7 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-032",
       campoDefault: "impostoSeletivo",
       estado: INC,
-      titulo: "Imposto Seletivo não admitido pelo tipo de documento",
+      titulo: "Imposto Seletivo não admitido pelo tipo de documento", path: "imposto-seletivo-nao-admitido-tipo-documento",
     },
   },
   ImpostoSeletivoNaoInformado: {
@@ -261,9 +235,8 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-013",
       campoDefault: "impostoSeletivo",
       estado: INC,
-      titulo: "Dados do Imposto Seletivo não informados",
+      titulo: "Dados do Imposto Seletivo não informados", path: "dados-imposto-seletivo-nao-informados",
     },
-    http: { titulo: "Dados do Imposto Seletivo não informados", path: "dados-imposto-seletivo-nao-informados" },
   },
   IncompatibilidadeSuspensao: {
     categoria: "validacao",
@@ -271,99 +244,87 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-010",
       campoDefault: "tributacaoRegular/cClassTrib",
       estado: INC,
-      titulo: "Incompatibilidade com suspensão",
+      titulo: "Incompatibilidade com suspensão", path: "incompatibilidade-suspensao",
     },
-    http: { titulo: "Incompatibilidade com suspensão", path: "incompatibilidade-suspensao" },
   },
   MunicipioNaoEncontrado: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-019", campoDefault: null, estado: INC, titulo: "Município não encontrado" },
-    http: { titulo: "Município não encontrado", path: "municipio-nao-encontrado" },
+    obs: { codigo: "REG-019", campoDefault: null, estado: INC, titulo: "Município não encontrado", path: "municipio-nao-encontrado" },
   },
   MunicipioNaoPertencente: {
     categoria: "validacao",
-    obs: { codigo: "REG-018", campoDefault: null, estado: INC, titulo: "Município não pertencente à UF" },
-    http: { titulo: "Município não pertencente à UF", path: "municipio-nao-pertencente-uf" },
+    obs: { codigo: "REG-018", campoDefault: null, estado: INC, titulo: "Município não pertencente à UF", path: "municipio-nao-pertencente-uf" },
   },
   NbsCompletoNaoInformado: {
     categoria: "validacao",
-    obs: { codigo: "REG-016", campoDefault: "nbs", estado: INC, titulo: "NBS completo não informado" },
-    http: { titulo: "NBS completo não informado", path: "nbs-completo-nao-informado" },
+    obs: { codigo: "REG-016", campoDefault: "nbs", estado: INC, titulo: "NBS completo não informado", path: "nbs-completo-nao-informado" },
   },
   NbsNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-003", campoDefault: "nbs", estado: INC, titulo: "NBS não encontrada" },
-    http: { titulo: "NBS não encontrada", path: "nbs-nao-encontrada" },
+    obs: { codigo: "REG-003", campoDefault: "nbs", estado: INC, titulo: "NBS não encontrada", path: "nbs-nao-encontrada" },
   },
   NbsNaoVinculada: {
     categoria: "validacao",
-    obs: { codigo: "REG-012", campoDefault: "nbs", estado: INC, titulo: "NBS não vinculada" },
-    http: { titulo: "NBS não vinculada", path: "nbs-nao-vinculada" },
+    obs: { codigo: "REG-012", campoDefault: "nbs", estado: INC, titulo: "NBS não vinculada", path: "nbs-nao-vinculada" },
   },
   NcmCompletoNaoInformado: {
     categoria: "validacao",
-    obs: { codigo: "REG-015", campoDefault: "ncm", estado: INC, titulo: "NCM completo não informado" },
-    http: { titulo: "NCM completo não informado", path: "ncm-completo-nao-informado" },
+    obs: { codigo: "REG-015", campoDefault: "ncm", estado: INC, titulo: "NCM completo não informado", path: "ncm-completo-nao-informado" },
   },
   NcmNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-002", campoDefault: "ncm", estado: INC, titulo: "NCM não encontrada" },
-    http: { titulo: "NCM não encontrada", path: "ncm-nao-encontrada" },
+    obs: { codigo: "REG-002", campoDefault: "ncm", estado: INC, titulo: "NCM não encontrada", path: "ncm-nao-encontrada" },
   },
   NcmNaoVinculada: {
     categoria: "validacao",
-    obs: { codigo: "REG-011", campoDefault: "ncm", estado: INC, titulo: "NCM não vinculada" },
-    http: { titulo: "NCM não vinculada", path: "ncm-nao-vinculada" },
+    obs: { codigo: "REG-011", campoDefault: "ncm", estado: INC, titulo: "NCM não vinculada", path: "ncm-nao-vinculada" },
   },
   NcmNbsSimultaneas: {
     categoria: "validacao",
-    obs: { codigo: "REG-001", campoDefault: null, estado: INC, titulo: "NCM e NBS informadas simultaneamente" },
-    http: { titulo: "NCM e NBS informadas simultaneamente", path: "ncm-nbs-simultaneas" },
+    obs: { codigo: "REG-001", campoDefault: null, estado: INC, titulo: "NCM e NBS informadas simultaneamente", path: "ncm-nbs-simultaneas" },
   },
   NomenclaturaIncompativelTipoDfe: {
     categoria: "validacao",
-    obs: { codigo: "REG-030", campoDefault: null, estado: INC, titulo: "Nomenclatura incompatível com o tipo de documento" },
+    obs: { codigo: "REG-030", campoDefault: null, estado: INC, titulo: "Nomenclatura incompatível com o tipo de documento", path: "nomenclatura-incompativel-tipo-documento" },
   },
   NomenclaturaNaoPermitidaTipoDfe: {
     categoria: "validacao",
-    obs: { codigo: "REG-031", campoDefault: null, estado: INC, titulo: "Nomenclatura não permitida para o tipo de documento" },
+    obs: { codigo: "REG-031", campoDefault: null, estado: INC, titulo: "Nomenclatura não permitida para o tipo de documento", path: "nomenclatura-nao-permitida-tipo-documento" },
   },
   NomenclaturaObrigatoriaNaoInformada: {
     categoria: "validacao",
-    obs: { codigo: "REG-033", campoDefault: null, estado: INC, titulo: "Nomenclatura obrigatória não informada" },
+    obs: { codigo: "REG-033", campoDefault: null, estado: INC, titulo: "Nomenclatura obrigatória não informada", path: "nomenclatura-obrigatoria-nao-informada" },
   },
   PercentualReducaoNaoEncontrado: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-010", campoDefault: null, estado: FT, titulo: "Percentual de redução não encontrado" },
+    obs: { codigo: "CAL-010", campoDefault: null, estado: FT, titulo: "Percentual de redução não encontrado", path: "percentual-reducao-nao-encontrado" },
   },
   SiglaDFeNaoEncontrada: {
     categoria: "validacao",
-    http: { titulo: "Sigla DFe não reconhecida", path: "sigla-dfe-nao-reconhecida" },
   },
   SituacaoTributariaNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-004", campoDefault: "cst", estado: INC, titulo: "Situação tributária não encontrada" },
-    http: { titulo: "Situação tributária não encontrada", path: "situacao-tributaria-nao-encontrada" },
+    obs: { codigo: "REG-004", campoDefault: "cst", estado: INC, titulo: "Situação tributária não encontrada", path: "situacao-tributaria-nao-encontrada" },
   },
   TipoAliquotaDesconhecido: {
     categoria: "validacao",
-    obs: { codigo: "CAL-006", campoDefault: null, estado: FT, titulo: "Tipo de alíquota desconhecido" },
+    obs: { codigo: "CAL-006", campoDefault: null, estado: FT, titulo: "Tipo de alíquota desconhecido", path: "tipo-aliquota-desconhecido" },
   },
   TipoDfeNaoEncontrado: {
     categoria: "validacao",
-    obs: { codigo: "REG-028", campoDefault: "tpDoc", estado: INC, titulo: "Tipo de documento fiscal não encontrado" },
+    obs: { codigo: "REG-028", campoDefault: "tpDoc", estado: INC, titulo: "Tipo de documento fiscal não encontrado", path: "tipo-documento-fiscal-nao-encontrado" },
   },
   TipoDfeNaoTratado: {
     categoria: "validacao",
-    obs: { codigo: "REG-038", campoDefault: "tpDoc", estado: INC, titulo: "Tipo de documento fiscal não tratado" },
+    obs: { codigo: "REG-038", campoDefault: "tpDoc", estado: INC, titulo: "Tipo de documento fiscal não tratado", path: "tipo-dfe-nao-tratado" },
   },
   TratamentoClassificacaoNaoEncontrado: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-008", campoDefault: "cClassTrib", estado: INC, titulo: "Tratamento de classificação não encontrado" },
+    obs: { codigo: "REG-008", campoDefault: "cClassTrib", estado: INC, titulo: "Tratamento de classificação não encontrado", path: "tratamento-classificacao-nao-encontrado" },
   },
   TratamentoTributarioNaoEncontrado: {
     categoria: "naoEncontrada",
-    obs: { codigo: "CAL-009", campoDefault: null, estado: FT, titulo: "Tratamento tributário não encontrado" },
+    obs: { codigo: "CAL-009", campoDefault: null, estado: FT, titulo: "Tratamento tributário não encontrado", path: "tratamento-tributario-nao-encontrado" },
   },
   TributacaoRegularInformadaIndevidamente: {
     categoria: "validacao",
@@ -371,11 +332,7 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-022",
       campoDefault: "tributacaoRegular",
       estado: INC,
-      titulo: "Grupo de tributação regular informado indevidamente",
-    },
-    http: {
-      titulo: "Grupo de tributação regular informado indevidamente",
-      path: "grupo-tributacao-regular-informado-indevidamente",
+      titulo: "Grupo de tributação regular informado indevidamente", path: "grupo-tributacao-regular-informado-indevidamente",
     },
   },
   TributacaoRegularNaoInformada: {
@@ -384,17 +341,26 @@ export const KINDS: Record<ExceptionKind, KindInfo> = {
       codigo: "REG-009",
       campoDefault: "tributacaoRegular",
       estado: INC,
-      titulo: "Grupo de tributação regular não informado",
+      titulo: "Grupo de tributação regular não informado", path: "grupo-tributacao-regular-nao-informado",
     },
-    http: { titulo: "Grupo de tributação regular não informado", path: "grupo-tributacao-regular-nao-informado" },
   },
   UfNaoEncontrada: {
     categoria: "naoEncontrada",
-    obs: { codigo: "REG-020", campoDefault: null, estado: INC, titulo: "UF não encontrada" },
-    http: { titulo: "UF não encontrada", path: "uf-nao-encontrada" },
+    obs: { codigo: "REG-020", campoDefault: null, estado: INC, titulo: "UF não encontrada", path: "uf-nao-encontrada" },
   },
   ErroSistema: { categoria: "interno" },
 };
+
+/** ProblemType do erro HTTP (título + path do `type`): entradas com código REG/CAL, as sem código e ERRO_SISTEMA. */
+export function problemaHttpDe(kind: ExceptionKind): { titulo: string; path: string } {
+  const o = KINDS[kind].obs;
+  if (o) return { titulo: o.titulo, path: o.path };
+  if (kind === "FormaAplicacaoNaoDefinida") {
+    return { titulo: "Forma de Aplicação de Percentual não definida", path: "forma-aplicacao-percentual-nao-definida" };
+  }
+  if (kind === "SiglaDFeNaoEncontrada") return { titulo: "Sigla DFe não reconhecida", path: "sigla-dfe-nao-reconhecida" };
+  return { titulo: ERRO_SISTEMA_TITULO, path: ERRO_SISTEMA_PATH };
+}
 
 export const ERRO_SISTEMA_TITULO = "Erro de sistema não previsto";
 export const ERRO_SISTEMA_PATH = "erro-de-sistema-nao-previsto";
