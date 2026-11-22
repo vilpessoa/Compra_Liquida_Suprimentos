@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/extract-rtc-data.ts",
-  "extractedAt": "2026-11-22T14:03:00.500Z",
+  "extractedAt": "2026-11-22T14:04:16.578Z",
   "sources": [
     {
       "repo": "calculadora-rtc-gerador-danfse",
@@ -707,8 +707,8 @@
   "totalRows": 30717,
   "files": {
     "aliquotas.json": {
-      "sha256": "bf64bfbc1814662468993dc118e271900bd7fba98be63f4133821c1a40b9c2d8",
-      "bytes": 6117,
+      "sha256": "144324e9ec0b5161a89889b20abafe5da2a8f4eb27c335338794640048835b60",
+      "bytes": 6153,
       "tables": [
         "TRIBUTO",
         "UNIDADE_MEDIDA",
@@ -781,8 +781,8 @@
       ]
     },
     "imposto-seletivo.json": {
-      "sha256": "a9945b58f0705a785e749e47371fef60cb4177dd17711730d984d609a6bf75c0",
-      "bytes": 55415,
+      "sha256": "1f17ced78950bbd9f673f23fdafc865614dfc4dfdaffae6032a03ecaabf19331",
+      "bytes": 55427,
       "tables": [
         "ALIQUOTA_AD_VALOREM",
         "ALIQUOTA_AD_VALOREM_PRODUTO",
@@ -846,12 +846,12 @@
       ]
     },
     "versao-base.json": {
-      "sha256": "6647df0c02c31a088705102dbae4b18c49ac98dfd82ff428c61d4ecb0d52ac35",
+      "sha256": "46ba3af0b6bdb813749254eea849a9d7039d92408eaab82d628bbdfd5cc40596",
       "bytes": 14958,
       "tables": [
         "VERSAO_BASE_DADO"
       ]
     }
   },
-  "totalBytes": 5423611
+  "totalBytes": 5423659
 }

@@ -391,7 +391,7 @@
     "rows": []
   },
   "ALIQUOTA_AD_REM": {
-    "meta": {"columns":[{"name":"AARE_ID","type":"INTEGER","pk":1},{"name":"AARE_VALOR","type":"REAL","pk":0},{"name":"AARE_UNMD_ID","type":"INTEGER","pk":0},{"name":"AARE_TBTO_ID","type":"INTEGER","pk":0},{"name":"AARE_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"AARE_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":2},
+    "meta": {"columns":[{"name":"AARE_ID","type":"INTEGER","pk":1},{"name":"AARE_VALOR","type":"REAL","pk":0},{"name":"AARE_UNMD_ID","type":"INTEGER","pk":0},{"name":"AARE_TBTO_ID","type":"INTEGER","pk":0},{"name":"AARE_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"AARE_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["AARE_VALOR"],"rowCount":2},
     "rows": [
       {"AARE_ID":1,"AARE_VALOR":null,"AARE_UNMD_ID":2,"AARE_TBTO_ID":1,"AARE_INICIO_VIGENCIA":"2027-01-01","AARE_FIM_VIGENCIA":"2033-12-31"},
       {"AARE_ID":2,"AARE_VALOR":null,"AARE_UNMD_ID":2,"AARE_TBTO_ID":1,"AARE_INICIO_VIGENCIA":"2027-01-01","AARE_FIM_VIGENCIA":"2033-12-31"}

@@ -214,7 +214,8 @@ function exportTable(db: Database.Database, table: string) {
   const decimalCols: string[] = [];
   for (const c of cols) {
     const has = db.prepare(`SELECT 1 FROM "${table}" WHERE typeof("${c.name}")='real' LIMIT 1`).get();
-    if (has) {
+    const declaredDecimal = /REAL|NUM|DEC|FLOA|DOUB/i.test(c.type);
+    if (has || declaredDecimal) {
       const bad = db.prepare(`SELECT count(*) n FROM "${table}" WHERE typeof("${c.name}")='real' AND CAST(CAST("${c.name}" AS TEXT) AS REAL) != "${c.name}"`).get() as { n: number };
       if (bad.n) throw new Error(`${table}.${c.name}: texto decimal nao reconverte ao mesmo valor (perda de precisao)`);
       decimalCols.push(c.name);

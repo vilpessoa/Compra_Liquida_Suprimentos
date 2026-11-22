@@ -27,15 +27,15 @@
     ]
   },
   "ALIQUOTA_PADRAO": {
-    "meta": {"columns":[{"name":"ALPA_ID","type":"INTEGER","pk":1},{"name":"ALPA_VALOR","type":"REAL","pk":0},{"name":"ALPA_MUNI_CD","type":"INTEGER","pk":0},{"name":"ALPA_UF_CD","type":"INTEGER","pk":0},{"name":"ALPA_ALRE_ID","type":"INTEGER","pk":0},{"name":"ALPA_FORMA_APLICACAO","type":"TEXT","pk":0},{"name":"ALPA_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"ALPA_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "meta": {"columns":[{"name":"ALPA_ID","type":"INTEGER","pk":1},{"name":"ALPA_VALOR","type":"REAL","pk":0},{"name":"ALPA_MUNI_CD","type":"INTEGER","pk":0},{"name":"ALPA_UF_CD","type":"INTEGER","pk":0},{"name":"ALPA_ALRE_ID","type":"INTEGER","pk":0},{"name":"ALPA_FORMA_APLICACAO","type":"TEXT","pk":0},{"name":"ALPA_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"ALPA_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["ALPA_VALOR"],"rowCount":0},
     "rows": []
   },
   "AJUSTE": {
-    "meta": {"columns":[{"name":"AJST_ID","type":"INTEGER","pk":1},{"name":"AJST_CLTR_ID","type":"INTEGER","pk":0},{"name":"AJST_TBTO_ID","type":"INTEGER","pk":0},{"name":"AJST_VALOR","type":"REAL","pk":0},{"name":"AJST_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"AJST_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "meta": {"columns":[{"name":"AJST_ID","type":"INTEGER","pk":1},{"name":"AJST_CLTR_ID","type":"INTEGER","pk":0},{"name":"AJST_TBTO_ID","type":"INTEGER","pk":0},{"name":"AJST_VALOR","type":"REAL","pk":0},{"name":"AJST_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"AJST_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["AJST_VALOR"],"rowCount":0},
     "rows": []
   },
   "REDUTOR": {
-    "meta": {"columns":[{"name":"RDTO_ID","type":"INTEGER","pk":1},{"name":"RDTO_CLTR_ID","type":"INTEGER","pk":0},{"name":"RDTO_TBTO_ID","type":"INTEGER","pk":0},{"name":"RDTO_VALOR","type":"REAL","pk":0},{"name":"RDTO_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"RDTO_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "meta": {"columns":[{"name":"RDTO_ID","type":"INTEGER","pk":1},{"name":"RDTO_CLTR_ID","type":"INTEGER","pk":0},{"name":"RDTO_TBTO_ID","type":"INTEGER","pk":0},{"name":"RDTO_VALOR","type":"REAL","pk":0},{"name":"RDTO_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"RDTO_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["RDTO_VALOR"],"rowCount":0},
     "rows": []
   },
   "REDUTOR_COMPRA_GOVERNAMENTAL": {
