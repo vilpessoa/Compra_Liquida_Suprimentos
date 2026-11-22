@@ -1,0 +1,121 @@
+<NFSe versao="1.01" xmlns="http://www.sped.fazenda.gov.br/nfse">
+  <infNFSe Id="NFS41137002211111111000111000000000022326057212672334">
+    <xLocEmi>Londrina</xLocEmi>
+    <xLocPrestacao>Londrina</xLocPrestacao>
+    <nNFSe>223</nNFSe>
+    <cLocIncid>4113700</cLocIncid>
+    <xLocIncid>Londrina</xLocIncid>
+    <xTribNac>Análise e desenvolvimento de sistemas.</xTribNac>
+    <xTribMun>teste</xTribMun>
+    <xNBS>Serviços de construção de edificações residenciais de um e dois pavimentos</xNBS>
+    <verAplic>EmissorWeb_1.4.0</verAplic>
+    <ambGer>2</ambGer>
+    <tpEmis>1</tpEmis>
+    <procEmi>2</procEmi>
+    <cStat>100</cStat>
+    <dhProc>2026-05-06T16:03:07-03:00</dhProc>
+    <nDFSe>604</nDFSe>
+    <emit>
+      <CNPJ>11111111000111</CNPJ>
+      <IM>1111111</IM>
+      <xNome>EMPRESA EMITENTE EXEMPLO LTDA</xNome>
+      <enderNac>
+        <xLgr>RUA EXEMPLO</xLgr>
+        <nro>100</nro>
+        <xCpl>SALA 1</xCpl>
+        <xBairro>CENTRO</xBairro>
+        <cMun>4113700</cMun>
+        <UF>PR</UF>
+        <CEP>00000000</CEP>
+      </enderNac>
+    </emit>
+    <valores>
+      <vBC>1000.00</vBC>
+      <pAliqAplic>5.00</pAliqAplic>
+      <vISSQN>50.00</vISSQN>
+      <vLiq>1000.00</vLiq>
+    </valores>
+    <DPS versao="1.01" xmlns="http://www.sped.fazenda.gov.br/nfse">
+      <infDPS Id="DPS411370021111111100011100900000000000001100">
+        <tpAmb>2</tpAmb>
+        <dhEmi>2026-05-06T16:03:00-03:00</dhEmi>
+        <verAplic>EmissorWeb_1.4.0</verAplic>
+        <serie>900</serie>
+        <nDPS>1100</nDPS>
+        <dCompet>2026-04-28</dCompet>
+        <tpEmit>1</tpEmit>
+        <cLocEmi>4113700</cLocEmi>
+        <prest>
+          <CNPJ>11111111000111</CNPJ>
+          <IM>1111111</IM>
+          <regTrib>
+            <opSimpNac>1</opSimpNac>
+            <regEspTrib>0</regEspTrib>
+          </regTrib>
+        </prest>
+        <toma>
+          <CNPJ>22222222000122</CNPJ>
+          <xNome>TOMADOR EXEMPLO LTDA</xNome>
+          <end>
+            <endNac>
+              <cMun>4113700</cMun>
+              <CEP>00000000</CEP>
+            </endNac>
+            <xLgr>RUA EXEMPLO</xLgr>
+            <nro>200</nro>
+            <xBairro>CENTRO</xBairro>
+          </end>
+        </toma>
+        <serv>
+          <locPrest>
+            <cLocPrestacao>4113700</cLocPrestacao>
+          </locPrest>
+          <cServ>
+            <cTribNac>010101</cTribNac>
+            <cTribMun>003</cTribMun>
+            <xDescServ>fdhdfghsdgf</xDescServ>
+            <cNBS>101011100</cNBS>
+          </cServ>
+        </serv>
+        <valores>
+          <vServPrest>
+            <vServ>1000.00</vServ>
+          </vServPrest>
+          <trib>
+            <tribMun>
+              <tribISSQN>1</tribISSQN>
+              <tpRetISSQN>1</tpRetISSQN>
+            </tribMun>
+            <totTrib>
+              <pTotTrib>
+                <pTotTribFed>0.01</pTotTribFed>
+                <pTotTribEst>0.01</pTotTribEst>
+                <pTotTribMun>0.01</pTotTribMun>
+              </pTotTrib>
+            </totTrib>
+          </trib>
+        </valores>
+      </infDPS>
+    </DPS>
+  </infNFSe>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#WithComments" />
+      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <Reference URI="#NFS41137002211111111000111000000000022326057212672334">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#WithComments" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <DigestValue>r/MQ4SG2A1doLJjHiRRReh2POJIDvvamMdh0nbbybls=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>AAAA</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>AAAA</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</NFSe>
