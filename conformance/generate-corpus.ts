@@ -425,6 +425,7 @@ function lotesRegime() {
         l.push({ it: baseIt({ aliquotasNominais: { cbs: NOM_A.cbs, ibsEstadual: NOM_A.ibsEstadual } }), tag: `${c.cst}/${c.cd}|sem-ibsMun` });
         l.push({ it: baseIt({ aliquotasNominais: {} }), tag: `${c.cst}/${c.cd}|objeto-vazio` });
         l.push({ it: baseIt({ aliquotasNominais: { ...NOM_A, impostoSeletivo: NOM_IS } as J }), tag: `${c.cst}/${c.cd}|com-IS-sem-grupo-IS` });
+        l.push({ it: baseIt({ aliquotasNominais: { impostoSeletivo: NOM_IS } as J }), tag: `${c.cst}/${c.cd}|so-IS-nominal` });
         l.push({ it: baseIt({ aliquotasNominais: { cbs: 101, ibsEstadual: 0, ibsMunicipal: 0 } }), tag: `${c.cst}/${c.cd}|cbs>100` });
         l.push({ it: baseIt({ aliquotasNominais: { cbs: -1, ibsEstadual: 0, ibsMunicipal: 0 } }), tag: `${c.cst}/${c.cd}|cbs<0` });
         l.push({ it: baseIt({ aliquotasNominais: { cbs: 8.12345, ibsEstadual: 0, ibsMunicipal: 0 } }), tag: `${c.cst}/${c.cd}|5-casas` });
@@ -777,6 +778,14 @@ function lotesSimples() {
       reqs.push(crt({ aliquotasEfetivas: { ...LINHA_SN, [anexo]: undefined } }, atividades.filter((a) => (a.anexoSem ?? "").length && (`anexo${a.anexoSem}` === anexo)).map((a) => itNA(a.cd, c, "sem", "1000.00", { valorImpostoSeletivo: "0.00" })).slice(0, 1)));
     for (const [tag, o] of [["CRT=4", { CRT: "4" }], ["CRT=3-sem-tpRegime", { CRT: "3" }], ["CRT=1+tpRegime=1-SOMENTE_RECEITA", { tpRegimeIBSCBS: "1" }], ["tpDoc=91+CRT", { tpDoc: "91" }], ["opSimpNac-em-CRT", { opSimpNac: "3" }]] as [string, Obj][])
       reqs.push({ ...crt(o, [itNA("01", c, "sem", "1000.00", { valorImpostoSeletivo: "0.00" })]), tags: [tag] });
+    // caminho SEM aliquotasEfetivas, em cada enquadramento de regime
+    for (const e of enq) {
+      const base0 = e.voc === "CRT"
+        ? { tpDoc: "55", CRT: String(e.crt), ...(e.tp ? { tpRegimeIBSCBS: String(e.tp) } : {}) }
+        : { tpDoc: "91", opSimpNac: String(e.ops), regApIBSCBSSN: String(e.reg), regApTribSN: "1" };
+      const ativ = e.voc === "CRT" ? "01" : "14";
+      reqs.push({ body: opNA(dataAno(2027), base0, [itNA(ativ, c, "sem", "1000.00", e.voc === "CRT" ? { valorImpostoSeletivo: "0.00" } : {})]), tags: [`sem-aliquotasEfetivas|${e.voc}|${JSON.stringify(base0)}`] });
+    }
     add({ file: "simples/nao-assistido-variados", api: "sn", endpoint: NAOASS, method: "POST", descricao: "Não assistido: exigência condicional de fatorR/aliquotasEfetivas/anexos, escopo (CRT 4, regime regular) e proibições.", reqs });
   }
 
@@ -803,6 +812,7 @@ interface CaseOut {
   request?: J;
   status: number;
   warn?: string;
+  naoDeterministico?: boolean;
   response: unknown;
 }
 const stats = { cases: 0, itens: 0, porEstado: {} as Record<string, number>, porCodigo: {} as Record<string, number>, porStatus: {} as Record<string, number>, porLote: {} as Record<string, Obj> };
@@ -829,7 +839,10 @@ function maskTs(o: unknown) {
   else if (o && typeof o === "object") {
     for (const [k, v] of Object.entries(o as Obj)) {
       if (k === "timestamp" && typeof v === "string") (o as Obj)[k] = "<TIMESTAMP>";
-      else {
+      else if (k === "detail" && typeof v === "string" && v.startsWith("Um ou mais campos são inválidos - ")) {
+        const [head, ...segs] = v.split(/ (?=\[)/); // segmentos "[campo: msg]" vêm de um Set: ordenados
+        (o as Obj)[k] = [head, ...segs.sort()].join(" ");
+      } else {
         // A ordem das violações de Bean Validation (VAL-*) vem de um Set do Java e NÃO é estável entre execuções:
         // ordenamos por (pointer, code, detail) para tornar o corpus reprodutível.
         if ((k === "erros" || k === "errors") && Array.isArray(v) && v.length > 1 && v.every((e) => typeof e?.code === "string" && e.code.startsWith("VAL-")))
@@ -886,7 +899,17 @@ async function main() {
     const res = await pool(l.reqs, 6, async (rq, i) => {
       const method = rq.method ?? l.method;
       const path = rq.path ?? l.endpoint;
-      const r = await call(base, path, method, rq.body);
+      let r = await call(base, path, method, rq.body);
+      let nd = false;
+      // POST /regime-geral processa itens em paralelo e devolve o PRIMEIRO erro que terminar: com vários itens inválidos o resultado pode variar.
+      if (path === RG && r.status >= 400 && ((rq.body as Obj)?.itens?.length ?? 0) > 1) {
+        const rs = [r];
+        for (let k = 0; k < 11; k++) rs.push(await call(base, path, method, rq.body));
+        for (const x of rs) maskTs(x.resp);
+        const ks = rs.map((x) => JSON.stringify(x.resp));
+        nd = true; // flag sempre presente nesses casos (a variação só aparece às vezes); guardamos a menor resposta das 12 amostras
+        r = rs[ks.indexOf([...ks].sort()[0])];
+      }
       if (r.app && r.dbv) engine[l.api] ??= { app: r.app, db: r.dbv };
       if (r.app && r.dbv && (engine[l.api].app !== r.app || engine[l.api].db !== r.dbv)) throw new Error("versão do motor mudou durante a geração");
       maskTs(r.resp);
@@ -896,6 +919,7 @@ async function main() {
       if (rq.tags) c.tags = rq.tags;
       if (rq.body !== undefined) c.request = JSON.parse(serialize(rq.body)) as J;
       if (r.warn) c.warn = r.warn;
+      if (nd) c.naoDeterministico = true;
       return c;
     });
     for (const c of res) tally(c.response, c.status);

@@ -10,15 +10,15 @@
    "db": "V0073"
   }
  },
- "cases": 2517,
- "itens": 23704,
+ "cases": 2528,
+ "itens": 23720,
  "porEstado": {
   "CALCULADO": 8012,
-  "INCONSISTENCIA_ENTRADA": 2723,
+  "INCONSISTENCIA_ENTRADA": 2729,
   "NAO_IMPLEMENTADO": 1924,
-  "CALCULO_SIMULADO": 8242,
+  "CALCULO_SIMULADO": 8248,
   "?": 394,
-  "NAO_CALCULADO": 2409
+  "NAO_CALCULADO": 2413
  },
  "porCodigo": {
   "REG-015": 233,
@@ -28,11 +28,11 @@
   "REG-005": 434,
   "CAL-007": 1834,
   "REG-004": 392,
-  "REG-036": 12,
+  "REG-036": 15,
   "VAL-008": 12,
   "VAL-013": 16,
   "VAL-010": 13,
-  "REG-037": 12,
+  "REG-037": 15,
   "REG-029": 169,
   "REG-038": 8,
   "REG-030": 128,
@@ -78,17 +78,17 @@
   "VSN-020": 1,
   "VSN-021": 1,
   "VSN-041": 1,
-  "VSN-039": 1,
+  "VSN-039": 8,
   "VSN-004": 2,
   "VSN-006": 2,
   "VSN-033": 2,
   "VSN-030": 1
  },
  "porStatus": {
-  "200": 2362,
+  "200": 2366,
   "400": 14,
   "404": 22,
-  "422": 119
+  "422": 126
  },
  "porLote": {
   "regime-regular/matriz-cst-cclasstrib-2026": {
@@ -237,9 +237,9 @@
   },
   "regime-regular/aliquotas-nominais": {
    "requisicoes": 19,
-   "itens": 708,
-   "bytes": 694459,
-   "sha256": "3414466f86b6fbec"
+   "itens": 720,
+   "bytes": 703023,
+   "sha256": "2eead2fd5c7355ce"
   },
   "regime-regular/tpdoc-2026": {
    "requisicoes": 29,
@@ -280,8 +280,8 @@
   "regime-regular/oficial-testes-regime-geral": {
    "requisicoes": 81,
    "itens": 354,
-   "bytes": 556494,
-   "sha256": "01193a33201a0256"
+   "bytes": 556569,
+   "sha256": "ef1a947e0875f9ac"
   },
   "regime-regular/oficial-testes-pedagio": {
    "requisicoes": 9,
@@ -310,8 +310,8 @@
   "regime-regular/oficial-docs-exemplos-rg": {
    "requisicoes": 1,
    "itens": 4,
-   "bytes": 2026,
-   "sha256": "97fb981da0ed5f4e"
+   "bytes": 2051,
+   "sha256": "2a9b55c827ed8ea1"
   },
   "regime-regular/oficial-docs-exemplos-base": {
    "requisicoes": 1,
@@ -428,10 +428,10 @@
    "sha256": "c13bee12b8ebf3d9"
   },
   "simples/nao-assistido-variados": {
-   "requisicoes": 13,
-   "itens": 13,
-   "bytes": 18949,
-   "sha256": "b96cabf37e06864d"
+   "requisicoes": 24,
+   "itens": 24,
+   "bytes": 29459,
+   "sha256": "2923a8821d0b2b92"
   },
   "simples/atividades-catalogo": {
    "requisicoes": 53,

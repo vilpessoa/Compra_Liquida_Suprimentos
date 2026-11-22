@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "extract:rtc": "tsx scripts/extract-rtc-data.ts",
     "build:wasm": "bash scripts/build-danfse-wasm.sh",
-    "conformance": "tsx conformance/run.ts"
+    "conformance": "vitest run conformance"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.12.0",
