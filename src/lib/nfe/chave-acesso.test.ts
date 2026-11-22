@@ -7,6 +7,7 @@ import {
   validarChaveAcesso,
 } from "./chave-acesso";
 import { bloco, chaveDoId, lerFixtureNfe, valorTag } from "./fixtures-oficiais";
+import { siglaUfPorCodigo } from "./uf";
 
 const XML_NFE = lerFixtureNfe("nfe/valido/nota/nfe_valido.xml");
 const XML_NFCE = lerFixtureNfe("nfce/valido/nota/nfce_valido.xml");
@@ -48,6 +49,29 @@ describe("decomposição com chaves extraídas dos XMLs oficiais", () => {
     expect(d.decomposta.cUF).toBe(valorTag(ideNfce, "cUF"));
     expect(d.decomposta.mod).toBe(valorTag(ideNfce, "mod"));
     expect(d.decomposta.cNF).toBe(valorTag(ideNfce, "cNF"));
+  });
+});
+
+describe("sigla da UF pela tabela oficial (src/data/rtc)", () => {
+  it("NF-e: siglaUF da chave confere com a UF do emitente no próprio XML", () => {
+    const d = analisarChaveAcesso(CHAVE_NFE);
+    expect(d.tamanhoValido).toBe(true);
+    if (!d.tamanhoValido) return;
+    expect(d.decomposta.siglaUF).toBe(valorTag(bloco(bloco(XML_NFE, "emit") ?? "", "enderEmit") ?? "", "UF"));
+    expect(d.decomposta.siglaUF).toBe("MA");
+  });
+
+  it("NFC-e: siglaUF da chave confere com a UF do emitente no próprio XML", () => {
+    const d = analisarChaveAcesso(CHAVE_NFCE);
+    expect(d.tamanhoValido).toBe(true);
+    if (!d.tamanhoValido) return;
+    expect(d.decomposta.siglaUF).toBe(valorTag(bloco(bloco(XML_NFCE, "emit") ?? "", "enderEmit") ?? "", "UF"));
+    expect(d.decomposta.siglaUF).toBe("PA");
+  });
+
+  it("código fora da tabela devolve undefined", () => {
+    expect(siglaUfPorCodigo("00")).toBeUndefined();
+    expect(siglaUfPorCodigo("99")).toBe("EX");
   });
 });
 

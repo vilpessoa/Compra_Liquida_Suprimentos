@@ -18,8 +18,10 @@ são relativos e dependem disso):
 | `nfse/originais/*.xsd` | `src/main/resources/xml/nfse/originais/` |
 
 NFC-e (`nfce/`) não foi copiada: o validador `nfe` usa os XSDs de NF-e. Os XMLs NFC-e
-oficiais de teste validam contra estes XSDs (verificado com `xmllint`). O `nfce/grupo.xsd`
-oficial difere do de NF-e apenas no tipo `TTribNFCe` e não é usado aqui.
+oficiais de teste validam contra estes XSDs (verificado com `xmllint` e nos testes). O
+`nfce/grupo.xsd` oficial é estruturalmente diferente do de NF-e (usa `TTribNFCe` e não tem
+os blocos `ide/gCompraGov` e `total`), e não é usado aqui. O `nfce/nota.xsd` é idêntico ao de NF-e,
+exceto pelo comentário de data.
 
 Não edite estes arquivos. Para atualizar, troque o SHA em `scripts/rfb-sources.lock`
 e recopie a partir do repositório oficial.

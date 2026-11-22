@@ -7,18 +7,20 @@
  * DV: módulo 11 sobre os 43 primeiros dígitos, pesos 2..9 aplicados da direita para a
  * esquerda (ciclando). Resto 0 ou 1 gera DV 0; caso contrário DV = 11 - resto.
  *
- * TODO(UF): a sigla da UF não é mapeada aqui. O código numérico (cUF) é devolvido como
- * está. O mapeamento cUF -> sigla só deve ser feito quando a tabela oficial de UFs existir
- * em src/data/rtc. Não deduzir a sigla a partir do código.
+ * A sigla vem da tabela oficial em src/data/rtc (ver ./uf.ts). Código desconhecido -> undefined.
  */
+
+import { siglaUfPorCodigo } from "./uf";
 
 export const TAMANHO_CHAVE_ACESSO = 44;
 
 export interface ChaveAcessoDecomposta {
   /** Chave normalizada, 44 dígitos. */
   chave: string;
-  /** Código numérico da UF do emitente. Sigla: TODO (ver cabeçalho). */
+  /** Código numérico da UF do emitente. */
   cUF: string;
+  /** Sigla da UF pela tabela oficial; undefined se o código não consta da tabela. */
+  siglaUF?: string;
   /** Ano e mês de emissão, AAMM. */
   AAMM: string;
   /** CNPJ do emitente (14 dígitos). Um CPF aparece completado com zeros à esquerda. */
@@ -74,6 +76,7 @@ function decompor(chave: string): ChaveAcessoDecomposta {
   return {
     chave,
     cUF: chave.slice(0, 2),
+    siglaUF: siglaUfPorCodigo(chave.slice(0, 2)),
     AAMM: chave.slice(2, 6),
     cnpjCpfEmitente: chave.slice(6, 20),
     mod: chave.slice(20, 22),
