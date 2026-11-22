@@ -90,8 +90,6 @@ export function numerosDoTrecho(trecho: string): string[] {
     const limpo = m[0].replace(/[.,]+$/, "");
     const n = parseNumeroBr(limpo);
     if (n) out.push(n.canonico);
-    // "1.234" também pode ser lido como decimal; aceita ambas as leituras na conferência.
-    if (n?.ambiguo) out.push(limpo);
   }
   return out;
 }
