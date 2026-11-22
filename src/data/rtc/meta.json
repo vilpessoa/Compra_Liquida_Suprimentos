@@ -1,0 +1,857 @@
+{
+  "generatedBy": "scripts/extract-rtc-data.ts",
+  "extractedAt": "2026-11-22T14:03:00.500Z",
+  "sources": [
+    {
+      "repo": "calculadora-rtc-gerador-danfse",
+      "sha": "8d79e6b2f7fad6375340afcb51c85ed370c64a14",
+      "date": "2026-10-22",
+      "url": "https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse",
+      "role": "nao usado na extracao de dados"
+    },
+    {
+      "repo": "calculadora-rtc-regime-regular",
+      "sha": "f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4",
+      "date": "2026-11-19",
+      "url": "https://github.com/ReceitaFederal/calculadora-rtc-regime-regular",
+      "role": "migracoes Flyway aplicadas (fonte dos dados)"
+    },
+    {
+      "repo": "calculadora-rtc-simples-nacional",
+      "sha": "a926d5a76095ac0295a6612a9a54db7ffead2396",
+      "date": "2026-11-19",
+      "url": "https://github.com/ReceitaFederal/calculadora-rtc-simples-nacional",
+      "role": "sem migracoes proprias; usa o banco do regime-regular (verificado); usado so para conferir tabelas das entidades"
+    }
+  ],
+  "flyway": {
+    "repo": "calculadora-rtc-regime-regular",
+    "confFiles": [
+      {
+        "file": "flyway/flyway-pro.conf",
+        "sha256": "ee73ee602c56eb09f3088565ae330e659d77f15fc5d765b887d328f599a3b0f2",
+        "settings": {
+          "flyway.user": "",
+          "flyway.password": "",
+          "flyway.baselineOnMigrate": "true",
+          "flyway.url": "jdbc:sqlite:file:./calculadora/db/calculadora-pro.db?date_class=TEXT&foreign_keys=ON",
+          "flyway.locations": "filesystem:./flyway/sql",
+          "flyway.mixed": "true"
+        }
+      }
+    ],
+    "locations": [
+      "filesystem:./flyway/sql"
+    ],
+    "semantics": "beforeMigrate; baseline B; V em ordem numerica; R; afterMigrate. Transacao por migracao, exceto scripts com PRAGMA foreign_keys (sem transacao, flyway.mixed=true)."
+  },
+  "appliedSql": [
+    {
+      "order": 1,
+      "role": "beforeMigrate",
+      "file": "flyway/sql/criacao/beforeMigrate.sql",
+      "sha256": "6864a69b1f087e7e3a9f185d92c6b3e1ca924d7d9f51c433aeed370a14c6a251",
+      "transactional": false
+    },
+    {
+      "order": 2,
+      "role": "baseline",
+      "file": "flyway/sql/criacao/B0001__sistema_tributario_completo.sql",
+      "sha256": "9582bbd4a08b2c61039ef077f851061ca3e99b98c1fcd2b6f9878ffd760ca739",
+      "transactional": false
+    },
+    {
+      "order": 3,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0002__update_tratamento_tributario_campo_ajuste.sql",
+      "sha256": "bd3e2db63fe9140b9fea0de545cc918d8c8a349c102a83cbd830575f8bba8088",
+      "transactional": true
+    },
+    {
+      "order": 4,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0003__municipio_exterior.sql",
+      "sha256": "1487a038a2384a520323ba24a89e579f1cf6d3b54173fdbe2ba997cf25365e08",
+      "transactional": true
+    },
+    {
+      "order": 5,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0004__ncm_aplicavel_imposto_seletivo.sql",
+      "sha256": "75471d2dbe3bade5e7b49c1f66dcfb3d2f45cbe191b51b23025f18961b702524",
+      "transactional": true
+    },
+    {
+      "order": 6,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0005__nbs_aplicavel_imposto_seletivo.sql",
+      "sha256": "10e08c8fef947e0d4b1e430b4d8689a86a010a2875708a6d3d50494f109d9120",
+      "transactional": true
+    },
+    {
+      "order": 7,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0006__vigencia_retroativa.sql",
+      "sha256": "e49b602771a50ea9d1c807ce3a3b8afeb23b9d2d490ba9bff09ae9f4badd4ea8",
+      "transactional": true
+    },
+    {
+      "order": 8,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0007__manutencao.sql",
+      "sha256": "b864ea8375cae65d5438be7d566bde7626bb4e68aca24ea3e68bdb5f8ee03162",
+      "transactional": true
+    },
+    {
+      "order": 9,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0008__correcao_fk_nbs_aplicavel.sql",
+      "sha256": "213beee8e32927a578c711cd65dce8d2c83c412e2d1855adbb04702008c9b441",
+      "transactional": true
+    },
+    {
+      "order": 10,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0009__aliquota_uniforme_setorial.sql",
+      "sha256": "ade045efd54e1f7199cbf32d8ed828017fd80c884916dd1398e4c520fd789c86",
+      "transactional": true
+    },
+    {
+      "order": 11,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0010__estrutura_carga_tabelas_dfe.sql",
+      "sha256": "2256f4e92fc06c3569a6831c67caa79579269f8a75aa86169dd9a8799655bb93",
+      "transactional": true
+    },
+    {
+      "order": 12,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0011__nova_tabela_cclasstrib_portal_03_10_2025.sql",
+      "sha256": "9313cbff0b4ec35688a6a0cc99d7db235e4d2caa1e42f9439025f49f480df740",
+      "transactional": true
+    },
+    {
+      "order": 13,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0012__tratamento_tributario_monofasia.sql",
+      "sha256": "5ec5e92bd9bf24adfdd6abd426d69e51982d5867b3fa7f28c4e066de6768b5bf",
+      "transactional": true
+    },
+    {
+      "order": 14,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0013__nova_tabela_cclasstrib_portal_19_ou_24_11_2025.sql",
+      "sha256": "a5019ddeadb58e833d03acb079d3058f50e32a9713c1da3646e34389e93eb91e",
+      "transactional": true
+    },
+    {
+      "order": 15,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0014__desativacao_monofasia_correcao_nomenclatura_200020.sql",
+      "sha256": "56fad174865ca52d0b2855a44f391ea488a7f940885fe5322ff6b127ed040e24",
+      "transactional": true
+    },
+    {
+      "order": 16,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0015__exclusao_aliquotas_padrao_ficticias.sql",
+      "sha256": "a0d941dc6054ebd408dfbb96bc6a810ca445f6ff502f83af3601733fad450ba1",
+      "transactional": true
+    },
+    {
+      "order": 17,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0016__ajuste_colunas_sem_tipo_definido_na_criacao.sql",
+      "sha256": "e1ebefa49c1536beab0ba5eb0530564ac3d9a54a3ec9aca6b7a55f7e8dd56925",
+      "transactional": true
+    },
+    {
+      "order": 18,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0017__nova_tabela_cclasstrib_portal_12_ou_15_12_2025.sql",
+      "sha256": "eb3b83a517a895eae92c09d03322ca92b4b520e5becb8b4c9184f5f89eda61df",
+      "transactional": true
+    },
+    {
+      "order": 19,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0018__aliquotas_fixas_ligadas_a_cclasstrib.sql",
+      "sha256": "75b98d4c10fd7c08c2ebf9b5438d26454afa81aec377c4c26868284fe514b043",
+      "transactional": true
+    },
+    {
+      "order": 20,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0019__estrutura_carga_tabelas_redutor_transferencia.sql",
+      "sha256": "246971fd7cce2dae121ba1b8bc939dea1b016bfa83f2e3562c901571c56c82de",
+      "transactional": true
+    },
+    {
+      "order": 21,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0020__estrutura_carga_tabelas_IndOP_IBSCBS_LC116_CLASSIF_NBS_INDOP_LC.sql",
+      "sha256": "2d2e30c499e7d0565f2f54fea5ab95233e03a956addd8eba1adaa98bcf3ad861",
+      "transactional": true
+    },
+    {
+      "order": 22,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0021__criacao_indices.sql",
+      "sha256": "56317e755dc523f849cea92509718754753e8a275a22efd2e1c74ef738bc3d2a",
+      "transactional": true
+    },
+    {
+      "order": 23,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0022__ajustes_campos_booleanos.sql",
+      "sha256": "507c854536006c0d699daf3b6989e47baf3044ba22de900ba2178b2cd8507966",
+      "transactional": true
+    },
+    {
+      "order": 24,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0023__inclusao_redutor_compra_gov_2026.sql",
+      "sha256": "af757e1e4033dd3372023390f69d82e0388353e5ed77b2528c4b80584abc52d4",
+      "transactional": true
+    },
+    {
+      "order": 25,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0024__atualizacao_cindop.sql",
+      "sha256": "282aa8c8198071b32c1d969dee13675cca288f5d564cd9e50aa5a4c894248eee",
+      "transactional": true
+    },
+    {
+      "order": 26,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0025__ajustes_classif_nbs_indop_lc.sql",
+      "sha256": "626d626020e1b9f7e8813ad18950bb6bcb6ce49d271edab453b208a6b2d01262",
+      "transactional": true
+    },
+    {
+      "order": 27,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0026__inclusao_cltr_data_atualizacao.sql",
+      "sha256": "f5158b2619742dea29c3a90ff027a15dce1bd85d04acc073b9514a0106e20cac",
+      "transactional": true
+    },
+    {
+      "order": 28,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0027__nova_tabela_cclasstrib_parte_1_inclusao_novas_cclasstribs.sql",
+      "sha256": "b435b0324779982b58aee949614e2415f93082791a73167dc57627b8090525e1",
+      "transactional": true
+    },
+    {
+      "order": 29,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0028__nova_tabela_cclasstrib_parte_2_atualizacao_cclasstribs_existentes.sql",
+      "sha256": "683eb351ce023bdbe9c62a7a920c05ae9b214b7e67b7a5c50a637fa0c506059a",
+      "transactional": true
+    },
+    {
+      "order": 30,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0029__nova_tabela_cclasstrib_parte_3_atualizacao_cclasstribs_existentes.sql",
+      "sha256": "94a1be8ece60e790299cd617748d1722f4263f8e06380ba929f9f0fa6ba7f381",
+      "transactional": true
+    },
+    {
+      "order": 31,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0030__atualizacao_cindop_para_pk_fk_ck.sql",
+      "sha256": "e99d688df930a976157f9f6de113873296d8915df474388d351799ec3eda3456",
+      "transactional": true
+    },
+    {
+      "order": 32,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0031__atualizacoes_tratamento_tributario.sql",
+      "sha256": "0b05bc2a13401e7972437bb8923a7ff9e3af8c7d5be6fe8072482fdd7b45cb28",
+      "transactional": true
+    },
+    {
+      "order": 33,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0032__nova_tabela_cclasstrib_15_04_2026.sql",
+      "sha256": "b6dd9f532754fbd39ab59f5c548d448ad53662229b42c0422ffa8f35d4e4764f",
+      "transactional": true
+    },
+    {
+      "order": 34,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0033__ajustes_tabela_cclasstrib_15_04_2026.sql",
+      "sha256": "ba21e8096c8135716e12d6d16803796bb81fcce7fba04fc92679bff592922bf2",
+      "transactional": true
+    },
+    {
+      "order": 35,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0034__correcao_duplicata_classif_nbs_indop_lc_125041100.sql",
+      "sha256": "61efb09b68474ec4fd7e099f71445e84904bb1bbf96faa545fd8ea43d64eaf62",
+      "transactional": true
+    },
+    {
+      "order": 36,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0035__inclusao_novos_cclasstrib.sql",
+      "sha256": "685abc4a736256d374af8eea510b7e3257141d226898529b1ee4cbd382e838af",
+      "transactional": true
+    },
+    {
+      "order": 37,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0036__atualizacoes_tabela_cclasstrib_23_06_2026.sql",
+      "sha256": "89ea011bb30174806bb0c10751fb868fc15d1038047ea4836ae0c632ce402bab",
+      "transactional": true
+    },
+    {
+      "order": 38,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0037__inclusao_aliquotas_fixas_mais_ajustes_excecao_ncm_aplicavel.sql",
+      "sha256": "e505343811c036b3dc38657140b478e4e4216f5fa919182d459fe511bd113142",
+      "transactional": true
+    },
+    {
+      "order": 39,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0038__deleta_registros_ncm_nbs_aplicavel.sql",
+      "sha256": "1677ae882c3e08a6a63a951527e8aa4b25fd6752e760f79e1b568dec63c3e2e0",
+      "transactional": true
+    },
+    {
+      "order": 40,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0039__inserir_extinguir_ncm.sql",
+      "sha256": "968ac34c80266bb233e7b8ca3ed805f303eed44c3deac2cf3d334b03517fbf37",
+      "transactional": true
+    },
+    {
+      "order": 41,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0040__atualizacao_lista_servicos_lc116.sql",
+      "sha256": "49955d624d0575c68171521a899bbdbed1d67e1f58e594cd0e7d27f3114c9e9c",
+      "transactional": true
+    },
+    {
+      "order": 42,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0041__adiciona_local_ocorrencia_anexo_vii.sql",
+      "sha256": "1653cbb4ae13b88fd3fa77f82e8c832b9e0928fdfae8d1109233d3092fa468e2",
+      "transactional": true
+    },
+    {
+      "order": 43,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0042__atualizacao_anexo_viii_nfse.sql",
+      "sha256": "39cc9d24c2cb63d29bd419856ca32f0f19438d2182d971050435e0671cb8ec45",
+      "transactional": true
+    },
+    {
+      "order": 44,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0043__ajustes_vigencia_cindop.sql",
+      "sha256": "b6743f7fd14277618fe5cdc3702af5b15842d2d2f5bf7839cf69ccc4bb7f0b00",
+      "transactional": true
+    },
+    {
+      "order": 45,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0044__grupo_dfe.sql",
+      "sha256": "32bfe3a1f8763eef8c5514b4c3aa9c0edfcda0a4d371eeba4a609dc61c2a8249",
+      "transactional": false
+    },
+    {
+      "order": 46,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0045__criacao_tabelas_ator.sql",
+      "sha256": "adbe24169dfad80d70f42164be48958a7c87d7e3ddfbf51830bb0b33d1c6abe9",
+      "transactional": true
+    },
+    {
+      "order": 47,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0046__carga_final_atores.sql",
+      "sha256": "6817e5779ebcfb088a45f5636e526f9251c7987b7d8cc4ec1760031f89424d45",
+      "transactional": true
+    },
+    {
+      "order": 48,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0047__tipo_receita_bruta_sn.sql",
+      "sha256": "f645ffd682ee33d2259b798eb717f5aa1d6f1f597ed6d9a8bb4fcf2c61d9a739",
+      "transactional": true
+    },
+    {
+      "order": 49,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0048__tipo_dfe_classificacao_dir_duimp.sql",
+      "sha256": "8ce637ee021d8e5e403f76ec4fd5cedc635ee72f93e0205234f0e313e6984fe0",
+      "transactional": true
+    },
+    {
+      "order": 50,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0049__catalogo_oficial_atividades_simples_nacional.sql",
+      "sha256": "aab95cfe30b5b9f8ebf0b6dea74547de756b4d9a2ce098e92202fdf309a9e893",
+      "transactional": true
+    },
+    {
+      "order": 51,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0050__parametrizacao_calculo_simples_nacional.sql",
+      "sha256": "ecc6d0c893d1db637d3c6f9f78cec0124e63d7005b14ebf59698c636009c2977",
+      "transactional": true
+    },
+    {
+      "order": 52,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0051__vinculo_atividades_cte_bpe_nfcom_simples_nacional.sql",
+      "sha256": "7b24c9de830fc9f362452f43037385ab34473e290a53805faad15fc45da1ef39",
+      "transactional": true
+    },
+    {
+      "order": 53,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0052__exclusao_cclasstrib.sql",
+      "sha256": "cb5d8d3538d2294052086a8694b74d81c50e022bd7e71d6bb63f082ee4decc73",
+      "transactional": true
+    },
+    {
+      "order": 54,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0053__ajustes_aliquotas.sql",
+      "sha256": "6f5171177a965b1595c09bda0160a4347fb173865b61eecb055f14732a0f53d5",
+      "transactional": true
+    },
+    {
+      "order": 55,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0054__ajustes_vigencia_cindop.sql",
+      "sha256": "f4fba790908e4eb6a4342f8980e34d93765c5375edb296f14c336d288acf7093",
+      "transactional": true
+    },
+    {
+      "order": 56,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0055__desabilitacao_8xx.sql",
+      "sha256": "70976e8dcc199877fe6c877c32042f43ba372d2b386efa372a8708cfde5b67d8",
+      "transactional": true
+    },
+    {
+      "order": 57,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0056__novas_aliquotas.sql",
+      "sha256": "9ea3afc11d31e79625e6f6e011aa6e20e604ea4192db3016659d6e925daeec0d",
+      "transactional": true
+    },
+    {
+      "order": 58,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0057__remocao_aliquotas_monofasia.sql",
+      "sha256": "eb785773c7b2275aa21455814523bc48799d11a1c8e38d7cb86b29758f3e4d7e",
+      "transactional": true
+    },
+    {
+      "order": 59,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0058__ajustes_vigencia_cindop.sql",
+      "sha256": "62f2f1da213650c856c3efaf49d6131f5220ba9f6049dc5252a4eb57a802d7ca",
+      "transactional": true
+    },
+    {
+      "order": 60,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0059__habilitacao_820.sql",
+      "sha256": "a85294971a521939cff5ed60ae5ccb5d4dc28100804b26e92d2a63ffc16c82f3",
+      "transactional": true
+    },
+    {
+      "order": 61,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0060__inclusao_local_imovel_bice.sql",
+      "sha256": "23c0c7110f4bc7e80445d27abb6973fcf16878a5d072ff9ec2a68c29df4e4902",
+      "transactional": true
+    },
+    {
+      "order": 62,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0061__atualizacao_classif_nbs_indop_lc_vigencia_novembro.sql",
+      "sha256": "33f795a13cf6c201d6eb05194d45b17ca5189aa47aa1cce90699be701c1beb43",
+      "transactional": true
+    },
+    {
+      "order": 63,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0062__nova_tabela_cclasstrib_01_10_2026.sql",
+      "sha256": "9c4472ab8044d858c2d673b479264f4fd6e5c9374669ef0431763ecd3ab87460",
+      "transactional": true
+    },
+    {
+      "order": 64,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0063__novas_colunas_cclasstrib_gpbiodiferenca_tpdoacao.sql",
+      "sha256": "30116fd03ee6c21e9fe4edb96e275e6ba33a60e3d597c23191a5992b6352315a",
+      "transactional": true
+    },
+    {
+      "order": 65,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0064__correcao_cindop_100301.sql",
+      "sha256": "f460877a9a1dacd5d77443886e1817b28554119a6d68742317c2f587d3fd21f8",
+      "transactional": true
+    },
+    {
+      "order": 66,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0065__ajustes_vigencia_cindop.sql",
+      "sha256": "3ff656f3e3eda9d7017a33d7c0d31a40ade84fc9d3181846de052fb1b95fbffb",
+      "transactional": true
+    },
+    {
+      "order": 67,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0066__exclusao_classif_nbs_indop_lc_3087.sql",
+      "sha256": "841ba2f731dbbe66376d2d85c28d35f0cfe034c0f42bc9a41ba5e3982967fcba",
+      "transactional": true
+    },
+    {
+      "order": 68,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0067__novas_colunas_tipo_dfe.sql",
+      "sha256": "4023873d388653950c86489404f4fd372d458973d9b6207829a0b183cd6cf114",
+      "transactional": true
+    },
+    {
+      "order": 69,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0068__corrige_fator_r_atividade_09.sql",
+      "sha256": "1e4c627f5fb3ba5ae8e0ad3eea9f6e76404926a1bb24d975c4f9c950651ab4c7",
+      "transactional": true
+    },
+    {
+      "order": 70,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0069__atualizacao_municipios.sql",
+      "sha256": "cb9c9edbd69a522b8b297056cad189e41414fdd53ebb0e340911f6a37f0a51e6",
+      "transactional": true
+    },
+    {
+      "order": 71,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0070__atualizacao_vigencia_ncm.sql",
+      "sha256": "cb70270e319207c8731323bd7bf980d94f66ed1ed9e5572e72b340664b458e88",
+      "transactional": true
+    },
+    {
+      "order": 72,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0071__calculo_simples_nacional_nfe_nfse.sql",
+      "sha256": "2e8153234b33b8699e17bcc89a3870dff1cd20bd62c575c7fb078fa63e9a7de4",
+      "transactional": true
+    },
+    {
+      "order": 73,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0072__atualizacao_nbs.sql",
+      "sha256": "743c788e027dfc107e3ab773f4d4af9b86adadc1c388c6e3775363c53b7ee22c",
+      "transactional": true
+    },
+    {
+      "order": 74,
+      "role": "versioned",
+      "file": "flyway/sql/manutencao/V0073__nova_tabela_cclasstrib_30_10_2026.sql",
+      "sha256": "8962059b19dcfee78b384bbcc7237c280c6c8a454bf85ad4f06ffa60391c9b67",
+      "transactional": true
+    },
+    {
+      "order": 75,
+      "role": "afterMigrate",
+      "file": "flyway/sql/criacao/afterMigrate.sql",
+      "sha256": "ff04412202b5b28a68211c4ee97d89d03d53040342eb53419ec30eae217e0ada",
+      "transactional": false
+    }
+  ],
+  "javaEntityTables": {
+    "calculadora-rtc-regime-regular": [
+      "ALIQUOTA_AD_REM",
+      "ALIQUOTA_AD_REM_PRODUTO",
+      "ALIQUOTA_AD_VALOREM",
+      "ALIQUOTA_AD_VALOREM_PRODUTO",
+      "ALIQUOTA_AD_VALOREM_SERVICO",
+      "ALIQUOTA_PADRAO",
+      "ALIQUOTA_REFERENCIA",
+      "ANEXO",
+      "CLASSIFICACAO_TRIBUTARIA",
+      "CLASSIF_NBS_INDOP_LC",
+      "EXCECAO_AD_REM_PRODUTO",
+      "EXCECAO_AD_VALOREM_PRODUTO",
+      "EXCECAO_AD_VALOREM_SERVICO",
+      "EXCECAO_NBS_APLICAVEL",
+      "EXCECAO_NCM_APLICAVEL",
+      "FUNDAMENTACAO_CLASSIFICACAO",
+      "FUNDAMENTACAO_LEGAL",
+      "GRUPO_ATOR",
+      "GRUPO_DFE",
+      "INDICADOR_OPERACAO_IBS_CBS",
+      "LISTA_SERVICOS_LC_116",
+      "MUNICIPIO",
+      "NBS",
+      "NBS_APLICAVEL",
+      "NCM",
+      "NCM_APLICAVEL",
+      "PERCENTUAL_REDUCAO",
+      "REDUTOR_COMPRA_GOVERNAMENTAL",
+      "SITUACAO_TRIBUTARIA",
+      "TIPO_DFE",
+      "TIPO_DFE_CLASSIFICACAO",
+      "TOMADOR_ESPECIFICO",
+      "TRANSFERENCIA_CBS_ENTE_GOV",
+      "TRATAMENTO_CLASSIFICACAO",
+      "TRATAMENTO_TRIBUTARIO",
+      "TRIBUTO",
+      "TRIBUTO_SITUACAO_TRIBUTARIA",
+      "UF",
+      "UNIDADE_MEDIDA",
+      "VERSAO_BASE_DADO"
+    ],
+    "calculadora-rtc-simples-nacional": [
+      "ANEXO",
+      "ATIVIDADE_SIMPLES_NACIONAL",
+      "CLASSIFICACAO_TRIBUTARIA",
+      "ENQUADRAMENTO_REGIME_SIMPLES_NACIONAL",
+      "EXCECAO_NBS_APLICAVEL",
+      "EXCECAO_NCM_APLICAVEL",
+      "NBS",
+      "NBS_APLICAVEL",
+      "NCM",
+      "NCM_APLICAVEL",
+      "REGIME_APURACAO_SIMPLES_NACIONAL",
+      "SITUACAO_ISS_PAR_ALIQUOTA_SIMPLES_NACIONAL",
+      "SITUACAO_TRIBUTARIA",
+      "TIPO_DFE",
+      "TIPO_DFE_CALCULO_SIMPLES_NACIONAL",
+      "TIPO_DFE_CLASSIFICACAO",
+      "TIPO_RECEITA_BRUTA_SIMPLES_NACIONAL",
+      "TOMADOR_ESPECIFICO",
+      "TRANSICAO_ALIQUOTA_COMPRA_GOV_SIMPLES_NACIONAL",
+      "VERSAO_BASE_DADO"
+    ]
+  },
+  "excludedInternalTables": [
+    "sqlite_stat1",
+    "sqlite_stat4"
+  ],
+  "integrity": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0
+  },
+  "rowCounts": {
+    "TRIBUTO": 4,
+    "UNIDADE_MEDIDA": 5,
+    "ALIQUOTA_REFERENCIA": 3,
+    "ALIQUOTA_PADRAO": 0,
+    "AJUSTE": 0,
+    "REDUTOR": 0,
+    "REDUTOR_COMPRA_GOVERNAMENTAL": 1,
+    "TRANSFERENCIA_CBS_ENTE_GOV": 6,
+    "APROPRIACAO_CREDITO_ADQUIRENTE": 0,
+    "TRATAMENTO_TRIBUTARIO": 43,
+    "TRATAMENTO_CLASSIFICACAO": 202,
+    "SITUACAO_TRIBUTARIA": 25,
+    "TRIBUTO_SITUACAO_TRIBUTARIA": 61,
+    "CLASSIFICACAO_TRIBUTARIA": 202,
+    "PERCENTUAL_REDUCAO": 519,
+    "FUNDAMENTACAO_LEGAL": 202,
+    "FUNDAMENTACAO_CLASSIFICACAO": 202,
+    "NCM_APLICAVEL": 1372,
+    "EXCECAO_NCM_APLICAVEL": 75,
+    "NBS_APLICAVEL": 118,
+    "EXCECAO_NBS_APLICAVEL": 0,
+    "CLASSIF_NBS_INDOP_LC": 3280,
+    "INDICADOR_OPERACAO_IBS_CBS": 66,
+    "LISTA_SERVICOS_LC_116": 255,
+    "NCM": 15162,
+    "NBS": 1237,
+    "ALIQUOTA_AD_VALOREM": 46,
+    "ALIQUOTA_AD_VALOREM_PRODUTO": 331,
+    "ALIQUOTA_AD_VALOREM_SERVICO": 0,
+    "ALIQUOTA_AD_REM": 2,
+    "ALIQUOTA_AD_REM_PRODUTO": 3,
+    "ALIQUOTA_AD_REM_SERVICO": 0,
+    "EXCECAO_AD_VALOREM_PRODUTO": 1,
+    "EXCECAO_AD_VALOREM_SERVICO": 0,
+    "EXCECAO_AD_REM_PRODUTO": 0,
+    "EXCECAO_AD_REM_SERVICO": 0,
+    "ATIVIDADE_SIMPLES_NACIONAL": 15,
+    "ENQUADRAMENTO_REGIME_SIMPLES_NACIONAL": 11,
+    "REGIME_APURACAO_SIMPLES_NACIONAL": 5,
+    "SITUACAO_ISS_PAR_ALIQUOTA_SIMPLES_NACIONAL": 10,
+    "TIPO_DFE_ATIVIDADE_SIMPLES_NACIONAL": 29,
+    "TIPO_DFE_CALCULO_SIMPLES_NACIONAL": 8,
+    "TIPO_RECEITA_BRUTA_SIMPLES_NACIONAL": 14,
+    "TRANSICAO_ALIQUOTA_COMPRA_GOV_SIMPLES_NACIONAL": 6,
+    "ANEXO": 821,
+    "TIPO_DFE": 18,
+    "GRUPO_DFE": 5,
+    "TIPO_DFE_CLASSIFICACAO": 419,
+    "TOMADOR_ESPECIFICO": 6,
+    "GRUPO_ATOR": 17,
+    "ATOR": 90,
+    "ATOR_CLASSIFICACAO": 146,
+    "ATOR_CLASSIFICACAO_FUNDAMENTACAO": 0,
+    "UF": 28,
+    "MUNICIPIO": 5573,
+    "VERSAO_BASE_DADO": 73
+  },
+  "totalRows": 30717,
+  "files": {
+    "aliquotas.json": {
+      "sha256": "bf64bfbc1814662468993dc118e271900bd7fba98be63f4133821c1a40b9c2d8",
+      "bytes": 6117,
+      "tables": [
+        "TRIBUTO",
+        "UNIDADE_MEDIDA",
+        "ALIQUOTA_REFERENCIA",
+        "ALIQUOTA_PADRAO",
+        "AJUSTE",
+        "REDUTOR",
+        "REDUTOR_COMPRA_GOVERNAMENTAL",
+        "TRANSFERENCIA_CBS_ENTE_GOV",
+        "APROPRIACAO_CREDITO_ADQUIRENTE"
+      ]
+    },
+    "tratamentos-tributarios.json": {
+      "sha256": "b15ee689b66df0d76898b0af1d29710d17e39bf8bb294e3dffceefae76b250f3",
+      "bytes": 58156,
+      "tables": [
+        "TRATAMENTO_TRIBUTARIO",
+        "TRATAMENTO_CLASSIFICACAO"
+      ]
+    },
+    "situacoes-tributarias.json": {
+      "sha256": "7b8aa5edacac385dc171102a54c785140b3d29213c1bf1223e7c1bfb7333a976",
+      "bytes": 15857,
+      "tables": [
+        "SITUACAO_TRIBUTARIA",
+        "TRIBUTO_SITUACAO_TRIBUTARIA"
+      ]
+    },
+    "classificacoes-tributarias.json": {
+      "sha256": "02af736da7c9b66249b5630396613461fd16d04bafd27fe3c619067904a368fa",
+      "bytes": 283370,
+      "tables": [
+        "CLASSIFICACAO_TRIBUTARIA",
+        "PERCENTUAL_REDUCAO"
+      ]
+    },
+    "fundamentacoes-legais.json": {
+      "sha256": "0c6dfede2c535db2f3ce342c9b61331452e2094e6671b295159f35d6fb4bf17e",
+      "bytes": 201152,
+      "tables": [
+        "FUNDAMENTACAO_LEGAL",
+        "FUNDAMENTACAO_CLASSIFICACAO"
+      ]
+    },
+    "vinculos-ncm-nbs.json": {
+      "sha256": "4c580a9ebd80fd1090a8d84fbd84389da6f7ff0c07f009f3ae2665bcc84560a5",
+      "bytes": 1027819,
+      "tables": [
+        "NCM_APLICAVEL",
+        "EXCECAO_NCM_APLICAVEL",
+        "NBS_APLICAVEL",
+        "EXCECAO_NBS_APLICAVEL",
+        "CLASSIF_NBS_INDOP_LC",
+        "INDICADOR_OPERACAO_IBS_CBS",
+        "LISTA_SERVICOS_LC_116"
+      ]
+    },
+    "ncm.json": {
+      "sha256": "ce9b461f6af6b59adce89bbfe9c4ed6f35743941d1693699a03bcc5b2551d185",
+      "bytes": 2420496,
+      "tables": [
+        "NCM"
+      ]
+    },
+    "nbs.json": {
+      "sha256": "32e13d4a79ca31d70908a194f78aae383fc67200f92993503fafca4b3b1d645f",
+      "bytes": 239336,
+      "tables": [
+        "NBS"
+      ]
+    },
+    "imposto-seletivo.json": {
+      "sha256": "a9945b58f0705a785e749e47371fef60cb4177dd17711730d984d609a6bf75c0",
+      "bytes": 55415,
+      "tables": [
+        "ALIQUOTA_AD_VALOREM",
+        "ALIQUOTA_AD_VALOREM_PRODUTO",
+        "ALIQUOTA_AD_VALOREM_SERVICO",
+        "ALIQUOTA_AD_REM",
+        "ALIQUOTA_AD_REM_PRODUTO",
+        "ALIQUOTA_AD_REM_SERVICO",
+        "EXCECAO_AD_VALOREM_PRODUTO",
+        "EXCECAO_AD_VALOREM_SERVICO",
+        "EXCECAO_AD_REM_PRODUTO",
+        "EXCECAO_AD_REM_SERVICO"
+      ]
+    },
+    "simples-nacional.json": {
+      "sha256": "3273ff0108e93c035d38d0a5b774b77a7d73a396fb13843deeea93ce59c39664",
+      "bytes": 28267,
+      "tables": [
+        "ATIVIDADE_SIMPLES_NACIONAL",
+        "ENQUADRAMENTO_REGIME_SIMPLES_NACIONAL",
+        "REGIME_APURACAO_SIMPLES_NACIONAL",
+        "SITUACAO_ISS_PAR_ALIQUOTA_SIMPLES_NACIONAL",
+        "TIPO_DFE_ATIVIDADE_SIMPLES_NACIONAL",
+        "TIPO_DFE_CALCULO_SIMPLES_NACIONAL",
+        "TIPO_RECEITA_BRUTA_SIMPLES_NACIONAL",
+        "TRANSICAO_ALIQUOTA_COMPRA_GOV_SIMPLES_NACIONAL"
+      ]
+    },
+    "anexos-nfse.json": {
+      "sha256": "9af249707e0a4e3ff7e91877bfe0ab9915d2d3401a580d35df94992d83824097",
+      "bytes": 188736,
+      "tables": [
+        "ANEXO"
+      ]
+    },
+    "documentos-fiscais.json": {
+      "sha256": "99fb9f944cc13e674e155efd8330b44db7d8d0149e6bd0482c9fbffe8700564b",
+      "bytes": 57897,
+      "tables": [
+        "TIPO_DFE",
+        "GRUPO_DFE",
+        "TIPO_DFE_CLASSIFICACAO",
+        "TOMADOR_ESPECIFICO"
+      ]
+    },
+    "atores.json": {
+      "sha256": "5aa1cc353ec64e695c160e83448bf6ce976766009011c13955a5b22a0f7e5ea6",
+      "bytes": 42908,
+      "tables": [
+        "GRUPO_ATOR",
+        "ATOR",
+        "ATOR_CLASSIFICACAO",
+        "ATOR_CLASSIFICACAO_FUNDAMENTACAO"
+      ]
+    },
+    "localidades.json": {
+      "sha256": "b906e8b2d6764d1764def3961a4fbfb390520086299629dac3a50789dd4b5881",
+      "bytes": 783127,
+      "tables": [
+        "UF",
+        "MUNICIPIO"
+      ]
+    },
+    "versao-base.json": {
+      "sha256": "6647df0c02c31a088705102dbae4b18c49ac98dfd82ff428c61d4ecb0d52ac35",
+      "bytes": 14958,
+      "tables": [
+        "VERSAO_BASE_DADO"
+      ]
+    }
+  },
+  "totalBytes": 5423611
+}

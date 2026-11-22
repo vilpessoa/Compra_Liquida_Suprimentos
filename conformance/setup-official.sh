@@ -24,7 +24,7 @@ mkdir -p "$WORK/logs"
 copy_repo() { # src dst
   if [ ! -d "$2" ]; then
     mkdir -p "$2"
-    tar -C "$1" --exclude=.git --exclude=target --exclude=calculadora -cf - . | tar -C "$2" -xf -
+    tar -C "$1" --exclude=./.git --exclude=./target --exclude=./calculadora -cf - . | tar -C "$2" -xf -
   fi
 }
 copy_repo "$RFB_REGIME_SRC" "$RR"

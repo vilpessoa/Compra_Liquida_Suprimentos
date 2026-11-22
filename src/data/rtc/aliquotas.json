@@ -1,0 +1,62 @@
+{
+  "TRIBUTO": {
+    "meta": {"columns":[{"name":"TBTO_ID","type":"INTEGER","pk":1},{"name":"TBTO_NOME","type":"TEXT","pk":0},{"name":"TBTO_SIGLA","type":"TEXT","pk":0},{"name":"TBTO_ENTE_FEDERATIVO","type":"TEXT","pk":0},{"name":"TBTO_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"TBTO_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":4},
+    "rows": [
+      {"TBTO_ID":1,"TBTO_NOME":"Imposto Seletivo","TBTO_SIGLA":"IS","TBTO_ENTE_FEDERATIVO":"UNIÃO","TBTO_INICIO_VIGENCIA":"2027-01-01","TBTO_FIM_VIGENCIA":null},
+      {"TBTO_ID":2,"TBTO_NOME":"Contribuição Social sobre Bens e Serviços","TBTO_SIGLA":"CBS","TBTO_ENTE_FEDERATIVO":"UNIÃO","TBTO_INICIO_VIGENCIA":"2026-01-01","TBTO_FIM_VIGENCIA":null},
+      {"TBTO_ID":3,"TBTO_NOME":"Imposto sobre Bens e Serviços","TBTO_SIGLA":"IBSUF","TBTO_ENTE_FEDERATIVO":"ESTADO","TBTO_INICIO_VIGENCIA":"2026-01-01","TBTO_FIM_VIGENCIA":null},
+      {"TBTO_ID":4,"TBTO_NOME":"Imposto sobre Bens e Serviços","TBTO_SIGLA":"IBSMun","TBTO_ENTE_FEDERATIVO":"MUNICÍPIO","TBTO_INICIO_VIGENCIA":"2026-01-01","TBTO_FIM_VIGENCIA":null}
+    ]
+  },
+  "UNIDADE_MEDIDA": {
+    "meta": {"columns":[{"name":"UNMD_ID","type":"INTEGER","pk":1},{"name":"UNMD_SIGLA","type":"TEXT","pk":0},{"name":"UNMD_NOME","type":"TEXT","pk":0},{"name":"UNMD_DESCRICAO","type":"TEXT","pk":0},{"name":"UNMD_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"UNMD_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":5},
+    "rows": [
+      {"UNMD_ID":1,"UNMD_SIGLA":"UN","UNMD_NOME":"Unidade","UNMD_DESCRICAO":"Unidade","UNMD_INICIO_VIGENCIA":"2026-01-01","UNMD_FIM_VIGENCIA":null},
+      {"UNMD_ID":2,"UNMD_SIGLA":"VN","UNMD_NOME":"Vintena","UNMD_DESCRICAO":"Vintena de cigarro","UNMD_INICIO_VIGENCIA":"2026-01-01","UNMD_FIM_VIGENCIA":null},
+      {"UNMD_ID":3,"UNMD_SIGLA":"M3","UNMD_NOME":"Metro cúbico","UNMD_DESCRICAO":"Metro cúbico","UNMD_INICIO_VIGENCIA":"2026-01-01","UNMD_FIM_VIGENCIA":null},
+      {"UNMD_ID":4,"UNMD_SIGLA":"KG","UNMD_NOME":"Quilograma","UNMD_DESCRICAO":"Quilograma","UNMD_INICIO_VIGENCIA":"2026-01-01","UNMD_FIM_VIGENCIA":null},
+      {"UNMD_ID":5,"UNMD_SIGLA":"LT","UNMD_NOME":"Litro","UNMD_DESCRICAO":"Litro","UNMD_INICIO_VIGENCIA":"2026-01-01","UNMD_FIM_VIGENCIA":null}
+    ]
+  },
+  "ALIQUOTA_REFERENCIA": {
+    "meta": {"columns":[{"name":"ALRE_ID","type":"INTEGER","pk":1},{"name":"ALRE_VALOR","type":"REAL","pk":0},{"name":"ALRE_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"ALRE_FIM_VIGENCIA","type":"TEXT","pk":0},{"name":"ALRE_TBTO_ID","type":"INTEGER","pk":0}],"decimalAsStringColumns":["ALRE_VALOR"],"rowCount":3},
+    "rows": [
+      {"ALRE_ID":1,"ALRE_VALOR":"0.9","ALRE_INICIO_VIGENCIA":"2026-01-01","ALRE_FIM_VIGENCIA":"2026-12-31","ALRE_TBTO_ID":2},
+      {"ALRE_ID":2,"ALRE_VALOR":"0.1","ALRE_INICIO_VIGENCIA":"2026-01-01","ALRE_FIM_VIGENCIA":"2026-12-31","ALRE_TBTO_ID":3},
+      {"ALRE_ID":3,"ALRE_VALOR":"0.0","ALRE_INICIO_VIGENCIA":"2026-01-01","ALRE_FIM_VIGENCIA":"2026-12-31","ALRE_TBTO_ID":4}
+    ]
+  },
+  "ALIQUOTA_PADRAO": {
+    "meta": {"columns":[{"name":"ALPA_ID","type":"INTEGER","pk":1},{"name":"ALPA_VALOR","type":"REAL","pk":0},{"name":"ALPA_MUNI_CD","type":"INTEGER","pk":0},{"name":"ALPA_UF_CD","type":"INTEGER","pk":0},{"name":"ALPA_ALRE_ID","type":"INTEGER","pk":0},{"name":"ALPA_FORMA_APLICACAO","type":"TEXT","pk":0},{"name":"ALPA_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"ALPA_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "rows": []
+  },
+  "AJUSTE": {
+    "meta": {"columns":[{"name":"AJST_ID","type":"INTEGER","pk":1},{"name":"AJST_CLTR_ID","type":"INTEGER","pk":0},{"name":"AJST_TBTO_ID","type":"INTEGER","pk":0},{"name":"AJST_VALOR","type":"REAL","pk":0},{"name":"AJST_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"AJST_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "rows": []
+  },
+  "REDUTOR": {
+    "meta": {"columns":[{"name":"RDTO_ID","type":"INTEGER","pk":1},{"name":"RDTO_CLTR_ID","type":"INTEGER","pk":0},{"name":"RDTO_TBTO_ID","type":"INTEGER","pk":0},{"name":"RDTO_VALOR","type":"REAL","pk":0},{"name":"RDTO_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"RDTO_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "rows": []
+  },
+  "REDUTOR_COMPRA_GOVERNAMENTAL": {
+    "meta": {"columns":[{"name":"RCGO_ID","type":"INTEGER","pk":1},{"name":"RCGO_VALOR","type":"REAL","pk":0},{"name":"RCGO_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"RCGO_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["RCGO_VALOR"],"rowCount":1},
+    "rows": [
+      {"RCGO_ID":2,"RCGO_VALOR":"0.0","RCGO_INICIO_VIGENCIA":"2026-01-01","RCGO_FIM_VIGENCIA":null}
+    ]
+  },
+  "TRANSFERENCIA_CBS_ENTE_GOV": {
+    "meta": {"columns":[{"name":"TCEG_ID","type":"INTEGER","pk":1},{"name":"TCEG_VALOR","type":"REAL","pk":0},{"name":"TCEG_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"TCEG_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":["TCEG_VALOR"],"rowCount":6},
+    "rows": [
+      {"TCEG_ID":1,"TCEG_VALOR":"10.0","TCEG_INICIO_VIGENCIA":"2029-01-01","TCEG_FIM_VIGENCIA":"2029-12-31"},
+      {"TCEG_ID":2,"TCEG_VALOR":"20.0","TCEG_INICIO_VIGENCIA":"2030-01-01","TCEG_FIM_VIGENCIA":"2030-12-31"},
+      {"TCEG_ID":3,"TCEG_VALOR":"30.0","TCEG_INICIO_VIGENCIA":"2031-01-01","TCEG_FIM_VIGENCIA":"2031-12-31"},
+      {"TCEG_ID":4,"TCEG_VALOR":"40.0","TCEG_INICIO_VIGENCIA":"2032-01-01","TCEG_FIM_VIGENCIA":"2032-12-31"},
+      {"TCEG_ID":5,"TCEG_VALOR":"100.0","TCEG_INICIO_VIGENCIA":"2033-01-01","TCEG_FIM_VIGENCIA":null},
+      {"TCEG_ID":6,"TCEG_VALOR":"0.0","TCEG_INICIO_VIGENCIA":"2026-01-01","TCEG_FIM_VIGENCIA":"2028-12-31"}
+    ]
+  },
+  "APROPRIACAO_CREDITO_ADQUIRENTE": {
+    "meta": {"columns":[{"name":"APCA_ID","type":"INTEGER","pk":1},{"name":"APCA_FDLG_ID","type":"INTEGER","pk":0},{"name":"APCA_CLTR_ID","type":"INTEGER","pk":0},{"name":"APCA_TBTO_ID","type":"INTEGER","pk":0},{"name":"APCA_INICIO_VIGENCIA","type":"TEXT","pk":0},{"name":"APCA_FIM_VIGENCIA","type":"TEXT","pk":0}],"decimalAsStringColumns":[],"rowCount":0},
+    "rows": []
+  }
+}
