@@ -143,3 +143,12 @@ Lotes (requisições; itens; KiB em disco):
 
 ## Fora do corpus
 Geração/validação de XML (`/xml/**`), `dados-abertos`, NFS-e `/nfse/**`, `base-calculo/is-mercadorias` e `cbs-ibs-mercadorias`, `GET /observabilidade/erros` e o endpoint assistido do Simples.
+
+## Teste diferencial (fuzz) — resultado registrado
+
+`npx tsx conformance/differential.ts --n=5000 --seed=2026`, rodado com os motores oficiais no ar
+(regime regular 1.7.2, Simples 1.0.2, base V0073), em 2026-11-22. As requisições partem das estruturas
+do corpus e recebem bases, quantidades, datas, alíquotas nominais e alíquotas efetivas do Simples sorteadas.
+
+**Resultado: 5000 requisições, 5000 idênticas ao motor oficial, 0 divergentes, 0 recusadas.**
+Antes, uma rodada de 500 com seed 1 também deu 500 idênticas.
