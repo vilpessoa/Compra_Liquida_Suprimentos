@@ -348,7 +348,7 @@ function lotesRegime() {
             if (modo === "informado") is.impostoInformado = dec("12.00");
             const it: Item = { ncm: nc.ncm, cst: normal.cst, cClassTrib: normal.cd, impostoSeletivo: is as J };
             if (modo === "informado") it.baseCalculo = dec((Number(base) + 12).toFixed(2));
-            if (y >= 2027) it.aliquotasNominais = { ...NOM_A, impostoSeletivo: NOM_IS } as J;
+            if (y >= 2027) it.aliquotasNominais = { ...NOM_A, impostoSeletivo: nc.un ? NOM_IS : { adValorem: NOM_IS.adValorem } } as J;
             items.push({ it, tag: `IS ${ic.cst}/${ic.cd}|${nc.k}|${modo}` });
           }
         }
@@ -445,6 +445,7 @@ function lotesRegime() {
   // 08 — tpDoc
   {
     const tipos = q<{ id: number; tipo: number; sigla: string }>(`SELECT TPDF_ID id, TPDF_TIPO tipo, TPDF_SIGLA sigla FROM TIPO_DFE ORDER BY TPDF_TIPO`);
+    const noTrat = new Set(q<{ t: number }>(`SELECT TPDF_TIPO t FROM TIPO_DFE WHERE TPDF_B_POSSUI_TRATAMENTO_CALCULADORA=0`).map((r) => r.t));
     const reqsByDate = new Map<string, Req[]>();
     for (const date of [dataAno(2026), dataAno(2027)]) {
       const y = Number(date.slice(0, 4));
@@ -460,7 +461,7 @@ function lotesRegime() {
             l.push({ it: withBase(itemCbs(c, y, vv.nomen, "0"), nextBase()), tag: `${c.cst}/${c.cd}|${vv.tag}|${vinc.includes(c.cd) ? "vinculada" : "NAO-vinculada"}` });
           }
         }
-        reqs.push(...pack(MAIN, date, l, { tpDoc: t.tipo }, 40));
+        reqs.push(...pack(MAIN, date, noTrat.has(t.tipo) ? l.slice(0, 3) : l, { tpDoc: t.tipo }, 40));
       }
       // tpDoc inexistente
       reqs.push({ body: op(MAIN, date, [withBase(itemCbs(clsCbs[0], y, {}, "0"), "100.00")], { tpDoc: 999 }), tags: ["tpDoc=999"] });
@@ -605,11 +606,16 @@ function lotesSimples() {
   // classes CBS/IBS do banco do Simples (mesmos dados)
   const cls = qs<{ cd: string; cst: string; tprbsn: number; ini: string }>(
     `SELECT c.CLTR_CD cd, s.SITR_CD cst, c.CLTR_TPRBSN tprbsn, c.CLTR_INICIO_VIGENCIA ini FROM CLASSIFICACAO_TRIBUTARIA c JOIN SITUACAO_TRIBUTARIA s ON s.SITR_ID=c.CLTR_SITR_ID JOIN TRIBUTO_SITUACAO_TRIBUTARIA t ON t.TRST_SITR_ID=s.SITR_ID WHERE t.TRST_TBTO_ID=2 ORDER BY c.CLTR_CD, c.CLTR_ID`);
-  // representantes por tpRBSN (as 2 primeiras de cada)
-  const repsRb: typeof cls = [];
-  for (const t of uniq(cls.map((c) => c.tprbsn)).sort((a, b) => a - b)) repsRb.push(...cls.filter((c) => c.tprbsn === t).slice(0, 2));
-  const clsByCd = new Map(cls.map((c) => [c.cd, c]));
-  void clsByCd;
+  /** cClassTrib vinculadas ao tipo de documento (TIPO_DFE_CLASSIFICACAO): só elas são admissíveis (VSN-022). */
+  const vincCls = (tipo: number) => {
+    const cds = new Set(qs<{ cd: string }>(`SELECT DISTINCT c.CLTR_CD cd FROM TIPO_DFE_CLASSIFICACAO d JOIN TIPO_DFE t ON t.TPDF_ID=d.TDCL_TPDF_ID JOIN CLASSIFICACAO_TRIBUTARIA c ON c.CLTR_ID=d.TDCL_CLTR_ID WHERE t.TPDF_TIPO=?`, tipo).map((r) => r.cd));
+    return cls.filter((c) => cds.has(c.cd));
+  };
+  const repsFor = (tipo: number) => {
+    const v = vincCls(tipo), out: typeof cls = [];
+    for (const t of uniq(v.map((c) => c.tprbsn)).sort((a, b) => a - b)) out.push(...v.filter((c) => c.tprbsn === t).slice(0, 2));
+    return out;
+  };
   // nomenclatura para o Simples: sem exigir vínculo; usa a mesma lógica (anexo) do regime quando existir
   const clsRR = (cd: string, cst: string) => clsCbs.find((c) => c.cd === cd && c.cst === cst);
   const nomenSn = (cd: string, cst: string, which: "sem" | "ncm" | "nbs"): { ncm?: string; nbs?: string } => {
@@ -648,7 +654,7 @@ function lotesSimples() {
         if (d.tipo !== 55 && ![2027, 2030].includes(yr)) continue;
         for (const [crt, tp] of regimesCrt) {
           const l: { it: Obj; tag: string }[] = [];
-          for (const a of ativDoc(d.tipo)) for (const c of repsRb) l.push({ it: itClassico(a, c, "sem", nextBase()), tag: `ativ=${a}|${c.cst}/${c.cd}|tpRBSN=${c.tprbsn}` });
+          for (const a of ativDoc(d.tipo)) for (const c of repsFor(d.tipo)) l.push({ it: itClassico(a, c, "sem", nextBase()), tag: `ativ=${a}|${c.cst}/${c.cd}|tpRBSN=${c.tprbsn}` });
           for (const g of chunk(l, 40)) reqs.push({ body: opClassico(date, d.tipo, crt, tp, g.map((x) => x.it)), tags: g.map((x) => x.tag) });
         }
       }
@@ -662,12 +668,12 @@ function lotesSimples() {
     for (const date of [dataAno(2027), dataAno(2033)]) {
       const l: { it: Obj; tag: string }[] = [];
       let k = 0;
-      for (const c of cls) for (const w of ["sem", "ncm", "nbs"] as const) {
+      for (const c of vincCls(55)) for (const w of ["sem", "ncm", "nbs"] as const) {
         const a = ativs[k++ % ativs.length];
         l.push({ it: itClassico(a, c, w, nextBase()), tag: `ativ=${a}|${c.cst}/${c.cd}|tpRBSN=${c.tprbsn}|${w}` });
       }
       add({ file: `simples/classico-cclasstrib-${date.slice(0, 4)}`, api: "sn", endpoint: CLASSICO, method: "POST",
-        descricao: `Todas as ${cls.length} cClassTrib CBS/IBS × {sem NCM/NBS, NCM, NBS} com atividade rotativa (admissíveis na NF-e), CRT=1, data ${date}.`,
+        descricao: `Todas as ${vincCls(55).length} cClassTrib CBS/IBS vinculadas à NF-e (TIPO_DFE_CLASSIFICACAO) × {sem NCM/NBS, NCM, NBS} com atividade rotativa (admissíveis na NF-e), CRT=1, data ${date}.`,
         reqs: chunk(l, 40).map((g) => ({ body: opClassico(date, 55, 1, undefined, g.map((x) => x.it)), tags: g.map((x) => x.tag) })) });
     }
   }
@@ -675,11 +681,11 @@ function lotesSimples() {
   {
     const reqs: Req[] = [];
     for (const date of DATAS_SN.slice(1)) for (const ente of ["1", "2", "3", "4", "5", "0"]) {
-      const l = repsRb.map((c) => ({ it: itClassico("01", c, "sem", "1234.56"), tag: `${c.cst}/${c.cd}|ente=${ente}` }));
+      const l = repsFor(55).map((c) => ({ it: itClassico("01", c, "sem", "1234.56"), tag: `${c.cst}/${c.cd}|ente=${ente}` }));
       for (const g of chunk(l, 40)) reqs.push({ body: opClassico(date, 55, 1, undefined, g.map((x) => x.it), { tpEnteGov: ente }), tags: g.map((x) => x.tag) });
     }
     for (const vis of ["0.00", "50.00", "-1.00", "1.234", "abc"]) {
-      const c = repsRb[0];
+      const c = repsFor(55)[0];
       reqs.push({ body: opClassico(dataAno(2027), 55, 1, undefined, [{ ...itClassico("01", c, "sem", "950.00"), valorImpostoSeletivo: vis }]), tags: [`vIS=${vis}`] });
     }
     add({ file: "simples/classico-compra-gov-is", api: "sn", endpoint: CLASSICO, method: "POST",
@@ -687,7 +693,7 @@ function lotesSimples() {
   }
   // S4 — erros globais do clássico
   {
-    const c = repsRb[1];
+    const c = repsFor(55)[1];
     const it = [itClassico("01", c, "sem", "100.00")];
     const mk = (tag: string, o: Obj): Req => ({ body: { ...(opClassico(dataAno(2027), 55, 1, undefined, it) as Obj), ...o } as J, tags: [tag] });
     const reqs: Req[] = [
@@ -718,11 +724,11 @@ function lotesSimples() {
       const reqs: Req[] = [];
       for (const e of enq.filter((x) => x.voc === "CRT"))
         for (const d of docs.filter((x) => x.vocab === "CRT"))
-          for (const fatorR of [true, false])
+          for (const fatorR of date === dataAno(2027) ? [true, false] : [true])
             for (const imp of [false, true]) {
               if (imp && date !== dataAno(2027)) continue;
               const l: { it: Obj; tag: string }[] = [];
-              for (const a of ativDoc(d.tipo)) for (const c of repsRb) l.push({ it: itNA(a, c, "sem", nextBase(), { valorImpostoSeletivo: "0.00" }), tag: `ativ=${a}|${c.cst}/${c.cd}|tpRBSN=${c.tprbsn}` });
+              for (const a of ativDoc(d.tipo)) for (const c of repsFor(d.tipo)) l.push({ it: itNA(a, c, "sem", nextBase(), { valorImpostoSeletivo: "0.00" }), tag: `ativ=${a}|${c.cst}/${c.cd}|tpRBSN=${c.tprbsn}` });
               for (const g of chunk(l, 40))
                 reqs.push({
                   body: opNA(date, { tpDoc: String(d.tipo), CRT: String(e.crt), ...(e.tp ? { tpRegimeIBSCBS: String(e.tp) } : {}), aliquotasEfetivas: { ...LINHA_SN, fatorR, impedimentoSublimite: imp } }, g.map((x) => x.it)),
@@ -740,7 +746,7 @@ function lotesSimples() {
       const reqs: Req[] = [];
       for (const e of enq.filter((x) => x.voc === "NFSE"))
         for (const a of atividades.filter((x) => ativDoc(91).includes(x.cd)))
-          for (const c of [repsRb.find((x) => x.tprbsn === 1)!, repsRb.find((x) => x.tprbsn === 2)!]) {
+          for (const c of repsFor(91).filter((x, i, a) => a.findIndex((y) => y.tprbsn === x.tprbsn) === i).slice(0, 3)) {
             const combos: Obj[] = [{}];
             if (a.iss) {
               combos.length = 0;
@@ -762,7 +768,7 @@ function lotesSimples() {
   // não assistido — fator R, regApTribSN, anexos, erros
   {
     const reqs: Req[] = [];
-    const c = repsRb.find((x) => x.tprbsn === 1)!;
+    const c = repsFor(55).find((x) => x.tprbsn === 1)!;
     const crt = (o: Obj, itens: Obj[], date = dataAno(2027)) => ({ body: opNA(date, { tpDoc: "55", CRT: "1", aliquotasEfetivas: LINHA_SN, ...o }, itens), tags: [JSON.stringify(o).slice(0, 80)] });
     reqs.push(crt({}, [itNA("09", c, "sem", "1000.00", { valorImpostoSeletivo: "0.00" })]));
     reqs.push(crt({ aliquotasEfetivas: { ...LINHA_SN, fatorR: undefined } }, [itNA("09", c, "sem", "1000.00", { valorImpostoSeletivo: "0.00" })]));
@@ -782,7 +788,7 @@ function lotesSimples() {
     reqs.push({ method: "GET", path: `calculadora/simples-nacional/atividades/99?data=${dataAno(2027)}`, tags: ["inexistente"] });
     for (const t of docs) reqs.push({ method: "GET", path: `calculadora/simples-nacional/atividades?data=${dataAno(2027)}&tpDoc=${t.tipo}`, tags: [`tpDoc=${t.tipo}`] });
     for (const anexos of ["I", "II", "III", "IV", "V", "III,V", "I,II,III,IV,V"]) reqs.push({ method: "GET", path: `calculadora/simples-nacional/atividades?data=${dataAno(2027)}&anexos=${anexos}`, tags: [`anexos=${anexos}`] });
-    for (const c of repsRb) reqs.push({ method: "GET", path: `calculadora/simples-nacional/atividades?data=${dataAno(2027)}&cClassTrib=${c.cd}`, tags: [`cClassTrib=${c.cd}`] });
+    for (const c of repsFor(55)) reqs.push({ method: "GET", path: `calculadora/simples-nacional/atividades?data=${dataAno(2027)}&cClassTrib=${c.cd}`, tags: [`cClassTrib=${c.cd}`] });
     reqs.push({ method: "GET", path: "calculadora/simples-nacional/atividades", tags: ["sem-data"] });
     add({ file: "simples/atividades-catalogo", api: "sn", endpoint: "calculadora/simples-nacional/atividades", method: "GET", descricao: "Catálogo oficial de atividades (GET) por data, código, anexos, tpDoc e cClassTrib.", reqs });
   }
@@ -817,6 +823,23 @@ async function call(base: string, endpoint: string, method: "GET" | "POST", body
   throw lastErr;
 }
 
+/** Campos `timestamp` (hora do servidor) são não determinísticos: substituídos por "<TIMESTAMP>" (documentado no README). */
+function maskTs(o: unknown) {
+  if (Array.isArray(o)) o.forEach(maskTs);
+  else if (o && typeof o === "object") {
+    for (const [k, v] of Object.entries(o as Obj)) {
+      if (k === "timestamp" && typeof v === "string") (o as Obj)[k] = "<TIMESTAMP>";
+      else {
+        // A ordem das violações de Bean Validation (VAL-*) vem de um Set do Java e NÃO é estável entre execuções:
+        // ordenamos por (pointer, code, detail) para tornar o corpus reprodutível.
+        if ((k === "erros" || k === "errors") && Array.isArray(v) && v.length > 1 && v.every((e) => typeof e?.code === "string" && e.code.startsWith("VAL-")))
+          v.sort((a: Obj, b: Obj) => (String(a.pointer) + a.code + a.detail).localeCompare(String(b.pointer) + b.code + b.detail));
+        maskTs(v);
+      }
+    }
+  }
+}
+
 function tally(resp: unknown, status: number) {
   stats.porStatus[status] = (stats.porStatus[status] ?? 0) + 1;
   const r = resp as Obj;
@@ -844,6 +867,14 @@ async function main() {
   lotesRegime();
   lotesOficiais();
   lotesSimples();
+  if (!DRY) {
+    // versão do motor (headers X-CALC-*) lida de chamadas de sondagem
+    const p1 = await call(URL_RR, OBS, "POST", op(MAIN, "2026-06-30", [withBase({ cst: "000", cClassTrib: "000001" }, "1.00")]));
+    const p2 = await call(URL_SN, "calculadora/observabilidade/simples-nacional", "POST", { id: "p", versao: "2.0.0", data: "2027-06-30", tpDoc: "55", CRT: "1", itens: [{ numero: 1, cAtivSN: "01", cClassTrib: "000001", baseCalculo: "1.00", valorImpostoSeletivo: "0.00", ...PAR_CLASSICO }] });
+    if (!p1.app || !p2.app) throw new Error("APIs oficiais não responderam com X-CALC-APP-VERSION (rode setup-official.sh)");
+    engine.rr = { app: p1.app, db: p1.dbv };
+    engine.sn = { app: p2.app, db: p2.dbv };
+  }
   const sel = lotes.filter((l) => !ONLY || l.file.includes(ONLY));
   const nReq = sel.reduce((s, l) => s + l.reqs.length, 0);
   console.log(`${sel.length} lotes, ${nReq} requisições${DRY ? " (dry-run)" : ""}`);
@@ -858,6 +889,7 @@ async function main() {
       const r = await call(base, path, method, rq.body);
       if (r.app && r.dbv) engine[l.api] ??= { app: r.app, db: r.dbv };
       if (r.app && r.dbv && (engine[l.api].app !== r.app || engine[l.api].db !== r.dbv)) throw new Error("versão do motor mudou durante a geração");
+      maskTs(r.resp);
       const c: CaseOut = { id: `${l.file.split("/").pop()}-${pad(i + 1)}`, status: r.status, response: r.resp };
       if (rq.path) c.path = rq.path;
       if (rq.method && rq.method !== l.method) c.method = rq.method;
@@ -874,7 +906,7 @@ async function main() {
       meta: {
         lote: l.file, descricao: l.descricao, api: l.api === "rr" ? "regime-regular" : "simples-nacional", endpoint: l.endpoint, method: l.method,
         motor: { aplicacao: engine[l.api].app, bancoDeDados: engine[l.api].db, repo: l.api === "rr" ? "calculadora-rtc-regime-regular" : "calculadora-rtc-simples-nacional", sha: sha(l.api === "rr" ? "calculadora-rtc-regime-regular" : "calculadora-rtc-simples-nacional") },
-        nota: "request/response exatamente como trocados com o motor oficial; tags = descrição de cada item (documentação, não faz parte do contrato); warn = header x-warning-dados-simulados.",
+        nota: "request/response como trocados com o motor oficial (exceções normalizadas: campos timestamp => <TIMESTAMP>; arrays de erros só-VAL-* ordenados por pointer/code/detail, pois a ordem do motor não é estável); tags = descrição de cada item (documentação, não faz parte do contrato); warn = header x-warning-dados-simulados.",
       },
       cases: res,
     };

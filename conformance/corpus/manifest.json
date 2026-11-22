@@ -1,0 +1,443 @@
+{
+ "geradoPor": "conformance/generate-corpus.ts",
+ "motor": {
+  "rr": {
+   "app": "1.7.2",
+   "db": "V0073"
+  },
+  "sn": {
+   "app": "1.0.2",
+   "db": "V0073"
+  }
+ },
+ "cases": 2517,
+ "itens": 23704,
+ "porEstado": {
+  "CALCULADO": 8012,
+  "INCONSISTENCIA_ENTRADA": 2723,
+  "NAO_IMPLEMENTADO": 1924,
+  "CALCULO_SIMULADO": 8242,
+  "?": 394,
+  "NAO_CALCULADO": 2409
+ },
+ "porCodigo": {
+  "REG-015": 233,
+  "REG-016": 27,
+  "REG-012": 7,
+  "REG-011": 16,
+  "REG-005": 434,
+  "CAL-007": 1834,
+  "REG-004": 392,
+  "REG-036": 12,
+  "VAL-008": 12,
+  "VAL-013": 16,
+  "VAL-010": 13,
+  "REG-037": 12,
+  "REG-029": 169,
+  "REG-038": 8,
+  "REG-030": 128,
+  "REG-033": 6,
+  "REG-028": 2,
+  "REG-020": 2,
+  "REG-018": 3,
+  "REG-019": 2,
+  "VAL-006": 3,
+  "REG-021": 2,
+  "VAL-001": 2,
+  "VAL-005": 1,
+  "VAL-004": 5,
+  "VAL-009": 1,
+  "REG-025": 2,
+  "REG-001": 2,
+  "REG-002": 2,
+  "REG-003": 2,
+  "REG-013": 2,
+  "REG-010": 1,
+  "REG-009": 1,
+  "REG-026": 1,
+  "REG-027": 1,
+  "REG-006": 1,
+  "VSN-015": 8,
+  "VSN-023": 1040,
+  "VSN-045": 178,
+  "VSN-042": 32,
+  "VSN-047": 2,
+  "VSN-027": 90,
+  "VSN-024": 16,
+  "VSN-003": 3,
+  "VSN-014": 1,
+  "VSN-022": 1,
+  "VSN-019": 6,
+  "VSN-016": 2,
+  "VSN-018": 2,
+  "VSN-012": 2,
+  "VSN-011": 1,
+  "VSN-013": 2,
+  "VSN-007": 1,
+  "VSN-002": 1,
+  "VSN-020": 1,
+  "VSN-021": 1,
+  "VSN-041": 1,
+  "VSN-039": 1,
+  "VSN-004": 2,
+  "VSN-006": 2,
+  "VSN-033": 2,
+  "VSN-030": 1
+ },
+ "porStatus": {
+  "200": 2362,
+  "400": 14,
+  "404": 22,
+  "422": 119
+ },
+ "porLote": {
+  "regime-regular/matriz-cst-cclasstrib-2026": {
+   "requisicoes": 15,
+   "itens": 572,
+   "bytes": 574777,
+   "sha256": "69d7f5aa1e1c21ff"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2027": {
+   "requisicoes": 15,
+   "itens": 572,
+   "bytes": 619145,
+   "sha256": "eb8cd0134ddcfc0b"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2028": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553232,
+   "sha256": "9388e22be5c67907"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2029": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553289,
+   "sha256": "d3cb7b7d09a992f1"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2030": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553373,
+   "sha256": "af092ba877c2f9f2"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2031": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553340,
+   "sha256": "3a014fea2072ad8a"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2032": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553333,
+   "sha256": "e5813ac019c6bb11"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2033": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553232,
+   "sha256": "f08adaba684ad474"
+  },
+  "regime-regular/matriz-cst-cclasstrib-2034": {
+   "requisicoes": 13,
+   "itens": 519,
+   "bytes": 553289,
+   "sha256": "603c265d2f2136a4"
+  },
+  "regime-regular/imposto-seletivo-2026": {
+   "requisicoes": 12,
+   "itens": 348,
+   "bytes": 197590,
+   "sha256": "d381ffb0118241e4"
+  },
+  "regime-regular/imposto-seletivo-2027": {
+   "requisicoes": 12,
+   "itens": 348,
+   "bytes": 559127,
+   "sha256": "582dbaa316925c92"
+  },
+  "regime-regular/imposto-seletivo-2028": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274119,
+   "sha256": "4abfc4c1e47b1cf0"
+  },
+  "regime-regular/imposto-seletivo-2029": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274132,
+   "sha256": "41d24ef24014b74c"
+  },
+  "regime-regular/imposto-seletivo-2030": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274141,
+   "sha256": "f9d5cc00437f859a"
+  },
+  "regime-regular/imposto-seletivo-2031": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274114,
+   "sha256": "aa37a4110c58de6d"
+  },
+  "regime-regular/imposto-seletivo-2032": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274122,
+   "sha256": "fb0bd7289d06407c"
+  },
+  "regime-regular/imposto-seletivo-2033": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274119,
+   "sha256": "e5c14787b66bfd91"
+  },
+  "regime-regular/imposto-seletivo-2034": {
+   "requisicoes": 6,
+   "itens": 174,
+   "bytes": 274132,
+   "sha256": "dc6a7b49e2084439"
+  },
+  "regime-regular/bases-2026": {
+   "requisicoes": 5,
+   "itens": 200,
+   "bytes": 192187,
+   "sha256": "3680c8990c361bd9"
+  },
+  "regime-regular/bases-2027": {
+   "requisicoes": 5,
+   "itens": 200,
+   "bytes": 207408,
+   "sha256": "44cb02189b5824cc"
+  },
+  "regime-regular/bases-2033": {
+   "requisicoes": 5,
+   "itens": 200,
+   "bytes": 207408,
+   "sha256": "fee23e37286c9e43"
+  },
+  "regime-regular/localidades-2026": {
+   "requisicoes": 14,
+   "itens": 560,
+   "bytes": 531801,
+   "sha256": "f32274782737181a"
+  },
+  "regime-regular/localidades-2027": {
+   "requisicoes": 14,
+   "itens": 560,
+   "bytes": 574319,
+   "sha256": "8393e112068cf31f"
+  },
+  "regime-regular/compra-governamental": {
+   "requisicoes": 59,
+   "itens": 1697,
+   "bytes": 1938800,
+   "sha256": "673413c179bc24c2"
+  },
+  "regime-regular/aliquotas-nominais": {
+   "requisicoes": 19,
+   "itens": 708,
+   "bytes": 694459,
+   "sha256": "3414466f86b6fbec"
+  },
+  "regime-regular/tpdoc-2026": {
+   "requisicoes": 29,
+   "itens": 725,
+   "bytes": 606601,
+   "sha256": "e337703e11c96353"
+  },
+  "regime-regular/tpdoc-2027": {
+   "requisicoes": 29,
+   "itens": 725,
+   "bytes": 661749,
+   "sha256": "df1ab8c112e90252"
+  },
+  "regime-regular/fronteiras-vigencia": {
+   "requisicoes": 22,
+   "itens": 853,
+   "bytes": 828816,
+   "sha256": "33b71f080ee38a31"
+  },
+  "regime-regular/operacao-erros": {
+   "requisicoes": 25,
+   "itens": 25,
+   "bytes": 21898,
+   "sha256": "bcb1bdde6dd07773"
+  },
+  "regime-regular/regime-geral-endpoint": {
+   "requisicoes": 121,
+   "itens": 123,
+   "bytes": 182827,
+   "sha256": "224189fb51bfea6f"
+  },
+  "regime-regular/oficial-testes-observabilidade": {
+   "requisicoes": 81,
+   "itens": 354,
+   "bytes": 569928,
+   "sha256": "9f408071f6145fb0"
+  },
+  "regime-regular/oficial-testes-regime-geral": {
+   "requisicoes": 81,
+   "itens": 354,
+   "bytes": 556494,
+   "sha256": "01193a33201a0256"
+  },
+  "regime-regular/oficial-testes-pedagio": {
+   "requisicoes": 9,
+   "itens": 0,
+   "bytes": 9211,
+   "sha256": "c74f1be5fc4515ae"
+  },
+  "regime-regular/oficial-testes-base-calculo": {
+   "requisicoes": 2,
+   "itens": 0,
+   "bytes": 1335,
+   "sha256": "6b25bc992cdaed54"
+  },
+  "regime-regular/oficial-testes-base-calculo-nfse": {
+   "requisicoes": 1,
+   "itens": 0,
+   "bytes": 1139,
+   "sha256": "d1fe474603edb9b6"
+  },
+  "regime-regular/oficial-docs-exemplos": {
+   "requisicoes": 1,
+   "itens": 4,
+   "bytes": 5931,
+   "sha256": "f3a7309c86403474"
+  },
+  "regime-regular/oficial-docs-exemplos-rg": {
+   "requisicoes": 1,
+   "itens": 4,
+   "bytes": 2026,
+   "sha256": "97fb981da0ed5f4e"
+  },
+  "regime-regular/oficial-docs-exemplos-base": {
+   "requisicoes": 1,
+   "itens": 0,
+   "bytes": 1240,
+   "sha256": "ec81f17768c78429"
+  },
+  "simples/classico-matriz-2026-12-31": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 34963,
+   "sha256": "4639fd1abd9faa5a"
+  },
+  "simples/classico-matriz-2027-06-30": {
+   "requisicoes": 33,
+   "itens": 762,
+   "bytes": 612768,
+   "sha256": "067a9a1928bf4047"
+  },
+  "simples/classico-matriz-2028-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146099,
+   "sha256": "19bc64d4e4055de9"
+  },
+  "simples/classico-matriz-2029-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146099,
+   "sha256": "1b5f8df7b2698239"
+  },
+  "simples/classico-matriz-2030-06-30": {
+   "requisicoes": 33,
+   "itens": 762,
+   "bytes": 612277,
+   "sha256": "cf0ea4b4faf6a24f"
+  },
+  "simples/classico-matriz-2031-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146322,
+   "sha256": "40e5fe0df577012b"
+  },
+  "simples/classico-matriz-2032-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146322,
+   "sha256": "019fc74c177596f0"
+  },
+  "simples/classico-matriz-2033-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146322,
+   "sha256": "4df3fe64096833ba"
+  },
+  "simples/classico-matriz-2034-06-30": {
+   "requisicoes": 6,
+   "itens": 180,
+   "bytes": 146322,
+   "sha256": "d9a39f0c68cabfc8"
+  },
+  "simples/classico-cclasstrib-2027": {
+   "requisicoes": 8,
+   "itens": 312,
+   "bytes": 235773,
+   "sha256": "39bdeac3311e944d"
+  },
+  "simples/classico-cclasstrib-2033": {
+   "requisicoes": 8,
+   "itens": 312,
+   "bytes": 236778,
+   "sha256": "c840ecc9759f9a85"
+  },
+  "simples/classico-compra-gov-is": {
+   "requisicoes": 53,
+   "itens": 581,
+   "bytes": 414541,
+   "sha256": "eef06fa8ab45a691"
+  },
+  "simples/classico-erros": {
+   "requisicoes": 27,
+   "itens": 26,
+   "bytes": 23792,
+   "sha256": "aad2bd0b3f0f35ac"
+  },
+  "simples/nao-assistido-crt-2027-06-30": {
+   "requisicoes": 160,
+   "itens": 3280,
+   "bytes": 2693363,
+   "sha256": "8257c866ec8ba5e0"
+  },
+  "simples/nao-assistido-crt-2030-06-30": {
+   "requisicoes": 40,
+   "itens": 820,
+   "bytes": 673522,
+   "sha256": "07c3bee438d651ea"
+  },
+  "simples/nao-assistido-crt-2033-06-30": {
+   "requisicoes": 40,
+   "itens": 820,
+   "bytes": 673522,
+   "sha256": "3cb7d5cd3a63d559"
+  },
+  "simples/nao-assistido-nfse-2027-06-30": {
+   "requisicoes": 1134,
+   "itens": 1134,
+   "bytes": 2106337,
+   "sha256": "a61af281d8f81744"
+  },
+  "simples/nao-assistido-nfse-2031-06-30": {
+   "requisicoes": 162,
+   "itens": 162,
+   "bytes": 294990,
+   "sha256": "c13bee12b8ebf3d9"
+  },
+  "simples/nao-assistido-variados": {
+   "requisicoes": 13,
+   "itens": 13,
+   "bytes": 18949,
+   "sha256": "b96cabf37e06864d"
+  },
+  "simples/atividades-catalogo": {
+   "requisicoes": 53,
+   "itens": 0,
+   "bytes": 209104,
+   "sha256": "e0adaa48fd32049e"
+  }
+ }
+}
